@@ -27,27 +27,53 @@ const getProductByID = async (req,res) => {
 }
 const getProductByCategory = async (req,res) => {
        try{
-              const category_search = req.params.category;
+              const category_search = parseInt(req.params.category);
               await prisma.$connect;
               const products = await prisma.product.findMany({
-                     include:{
-                            altcategory: {
-                                   include: {
-                                          subcategory:true
-                                   }
-                            }
-                     }
+                    where:{
+                     cat_id:category_search
+                    }
               })
-              console.log(products);
-              res.status(200).json(JSON.stringify(products))
+              res.status(200).json(products)
        } catch(e) {
               console.log(e);
               res.status(404).send("Invalid")
        }
 }
-
+const getProductBySubCategory = async (req,res) => {
+       try{
+              const subCategory = parseInt(req.params.subCategory);
+              await prisma.$connect;
+              const products = await prisma.product.findMany({
+                     where:{
+                            subcat_id:subCategory
+                     }
+              })
+              res.status(200).json(products)
+       }catch(e){
+              console.log(e);
+              res.status(404).send('invalid')
+       }
+}
+const getProductByAltCategory = async (req,res) => {
+       try{
+              const altCategory = parseInt(req.params.altCategory);
+              await prisma.$connect;
+              const products = await prisma.product.findMany({
+                     where:{
+                            altcat_id:altCategory
+                     }
+              })
+              res.status(200).json(products)
+       }catch(e){
+              console.log(e);
+              res.status(404).send('invalid')
+       }
+}
 module.exports = {
        getProduct,
        getProductByID,
-       getProductByCategory
+       getProductByCategory,
+       getProductBySubCategory,
+       getProductByAltCategory
 }

@@ -11,34 +11,41 @@ datasource db {
 }
 
 model category {
-  id          BigInt        @unique
+  id          Int           @unique
   name        String        @db.VarChar(100)
   subcategory subcategory[]
+  altcategory altcategory[]
+  product     product[]
 }
 
 model subcategory {
-  id          BigInt        @unique
+  id          Int           @unique
   name        String        @db.VarChar(100)
   cateogry    category      @relation(fields: [category_id], references: [id])
-  category_id BigInt
+  category_id Int
   altcategory altcategory[]
+  product     product[]
 }
 
 model altcategory {
-  id             BigInt      @unique
-  name           String      @db.VarChar(100)
-  subcategory    subcategory @relation(fields: [subcategory_id], references: [id])
-  subcategory_id BigInt
-  created_at     DateTime
-  product        product[]
+  id          Int         @unique
+  name        String      @db.VarChar(100)
+  subcategory subcategory @relation(fields: [subcat_id], references: [id])
+  category    category    @relation(fields: [cat_id], references: [id])
+  cat_id      Int
+  subcat_id   Int
+  product     product[]
 }
 
 model product {
-  id             Int         @unique
-  name           String
-  desc           String
-  price          Float
-  created_at     DateTime
-  altcategory_id BigInt
-  altcategory    altcategory @relation(fields: [altcategory_id], references: [id])
+  id          Int         @unique
+  name        String
+  description String
+  price       Float
+  altcategory altcategory @relation(fields: [altcat_id], references: [id])
+  altcat_id   Int
+  subcategory subcategory @relation(fields: [subcat_id], references: [id])
+  subcat_id   Int
+  cat_id      Int
+  category    category    @relation(fields: [cat_id], references: [id])
 }
