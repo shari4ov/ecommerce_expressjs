@@ -12,6 +12,7 @@ datasource db {
 
 model category {
   id          Int           @unique
+  uniq_id     String        @unique
   name        String        @db.VarChar(100)
   subcategory subcategory[]
   altcategory altcategory[]
@@ -20,6 +21,7 @@ model category {
 
 model subcategory {
   id          Int           @unique
+  uniq_id     String        @unique
   name        String        @db.VarChar(100)
   cateogry    category      @relation(fields: [category_id], references: [id])
   category_id Int
@@ -29,6 +31,7 @@ model subcategory {
 
 model altcategory {
   id          Int         @unique
+  uniq_id     String      @unique
   name        String      @db.VarChar(100)
   subcategory subcategory @relation(fields: [subcat_id], references: [id])
   category    category    @relation(fields: [cat_id], references: [id])
