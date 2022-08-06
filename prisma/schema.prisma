@@ -38,14 +38,24 @@ model altcategory {
 }
 
 model product {
-  id          Int         @unique
-  name        String
-  description String
-  price       Float
-  altcategory altcategory @relation(fields: [altcat_id], references: [id])
-  altcat_id   Int
-  subcategory subcategory @relation(fields: [subcat_id], references: [id])
-  subcat_id   Int
-  cat_id      Int
-  category    category    @relation(fields: [cat_id], references: [id])
+  id            Int           @unique
+  uniq_id       String        @unique
+  name          String
+  description   Json
+  specification Json
+  price         Float
+  status        ProductStatus
+  weight        Float
+  model         String
+  altcategory   altcategory   @relation(fields: [altcat_id], references: [id])
+  altcat_id     Int
+  subcategory   subcategory   @relation(fields: [subcat_id], references: [id])
+  subcat_id     Int
+  cat_id        Int
+  category      category      @relation(fields: [cat_id], references: [id])
+}
+
+enum ProductStatus {
+  active
+  deactive
 }
