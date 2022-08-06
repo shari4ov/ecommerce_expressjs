@@ -4,7 +4,11 @@ const prisma = new PrismaClient()
 const getSubCats = async(req,res) => {
        try{ 
               await prisma.$connect;
-              const subCategory = await prisma.subcategory.findMany();
+              const subCategory = await prisma.subcategory.findMany({
+                     include:{
+                            altcategory:true
+                     }
+              });
               res.status(200).json(subCategory)
        } catch(e) {
               console.log(e);
