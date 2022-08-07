@@ -58,6 +58,14 @@ model product {
   category      category      @relation(fields: [cat_id], references: [id])
 }
 
+model contact {
+  uniq_id String @unique
+  name    String @db.VarChar(255)
+  email   String @db.VarChar(255)
+  phone   String @db.VarChar(100)
+  message String @db.Text
+}
+
 enum ProductStatus {
   active
   deactive
