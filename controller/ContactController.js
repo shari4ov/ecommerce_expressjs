@@ -19,7 +19,7 @@ const postContact = async (req,res,next) => {
                      message: req.body.message
               }
        })
-       res.status(200).json({msg: "Successfully submited"});
+       res.status(201).json({msg: "Successfully submited"});
 }
 
 module.exports = {

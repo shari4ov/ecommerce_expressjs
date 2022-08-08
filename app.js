@@ -8,6 +8,7 @@ const altCategoryAPI = require("./controller/AltCategoryController");
 const subCatAPI = require('./controller/SubCategoryController')
 const categoryAPI = require('./controller/CategoryController')
 const contactAPI = require('./controller/ContactController')
+const aboutUsAPI  = require('./controller/AboutUsController');
 var {body} = require('express-validator');
 
 app.use(bodyParser.urlencoded({extended:true}))
@@ -25,6 +26,7 @@ app.get('/api/stroyka/get/subcategories',subCatAPI.getSubCats)
 app.get('/api/stroyka/get/subcategoriesByCatID/:id',subCatAPI.getSubCatsByCatID)
 
 app.get('/api/stroyka/get/categories',categoryAPI.getCategories)
+app.get('/api/stroyka/get/about',aboutUsAPI.getAbout)
 
 const validationRule = () => {
        return [

@@ -66,6 +66,12 @@ model contact {
   message String @db.Text
 }
 
+model aboutus {
+  uniq_id String @unique
+  title   String
+  context String
+}
+
 enum ProductStatus {
   active
   deactive
