@@ -41,7 +41,6 @@ model altcategory {
 }
 
 model product {
-  id            Int           @unique
   uniq_id       String        @unique
   name          String
   description   Json

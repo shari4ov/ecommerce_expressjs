@@ -33,5 +33,5 @@ const getSubCatsByCatID = async(req,res) => {
 
 module.exports = {
        getSubCats,
-       getSubCatsByCatID
+       getSubCatsByCatID,
 }

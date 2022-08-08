@@ -2,6 +2,9 @@ const express = require('express');
 const app = express()
 var cors = require('cors')
 var bodyParser = require('body-parser')
+const { PrismaClient } = require("@prisma/client")
+const prisma = new PrismaClient()
+
 const port = 3000;
 const productAPI = require('./controller/ProductController')
 const altCategoryAPI = require("./controller/AltCategoryController");
@@ -28,7 +31,34 @@ app.get('/api/stroyka/get/subcategoriesByCatID/:id',subCatAPI.getSubCatsByCatID)
 app.get('/api/stroyka/get/categories',categoryAPI.getCategories)
 app.get('/api/stroyka/get/about',aboutUsAPI.getAbout)
 
-const validationRule = () => {
+
+const validationRuleFilterProduct = (section_name) => {
+       let section_tmp = []
+       return [
+              body(section_name).notEmpty().trim().escape().custom(value=> {
+                     return (async () => {
+                            await prisma.$connect();
+                            var section__ = await prisma[section_name].findMany({
+                                   select:{
+                                          id:true
+                                   }
+                            })
+                            section__.forEach(obj => {
+                                   section_tmp.push(obj.id)
+                               })
+                            if(!section_tmp.includes(parseFloat(value))){
+                                   throw new Error("Movcud deyil")
+                            }
+                     })()
+              }),
+              body("max_price").notEmpty().trim().escape(),
+              body("min_price").notEmpty().trim().escape()
+       ]
+}
+app.post('/api/stroyka/filter/product/subcategory',validationRuleFilterProduct("subcategory"),productAPI.filterPriceBySubCat)
+app.post('/api/stroyka/filter/product/category',validationRuleFilterProduct("category"),productAPI.filterPriceByCategory)
+app.post('/api/stroyka/filter/product/altcategory',validationRuleFilterProduct("altcategory"),productAPI.filterPriceByAltCat)
+const validationRuleContact = () => {
        return [
               body('name').notEmpty().matches(/^[a-zA-Z\s]*$/).escape().trim().withMessage("Ad düzgün doldurulmayıb"),
               body('email').notEmpty().isEmail().normalizeEmail().escape().trim().withMessage("E-mail  düzgün doldurulmayıb"),
@@ -36,7 +66,7 @@ const validationRule = () => {
               body('message').notEmpty().escape().trim().withMessage("Məktub düzgün deyil")
        ]
 }
-app.post('/api/stroyka/contactus/',validationRule(),contactAPI.postContact)
+app.post('/api/stroyka/contactus/',validationRuleContact(),contactAPI.postContact)
 module.exports=app.listen(port,() => {
        console.log('Listening');
 })
