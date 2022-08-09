@@ -12,6 +12,7 @@ const subCatAPI = require('./controller/SubCategoryController')
 const categoryAPI = require('./controller/CategoryController')
 const contactAPI = require('./controller/ContactController')
 const aboutUsAPI  = require('./controller/AboutUsController');
+const UserAPI = require('./controller/UserController');
 var {body} = require('express-validator');
 
 app.use(bodyParser.urlencoded({extended:true}))
@@ -67,6 +68,31 @@ const validationRuleContact = () => {
        ]
 }
 app.post('/api/stroyka/contactus/',validationRuleContact(),contactAPI.postContact)
+
+const validationRuleRegister = () => {
+       return [
+              body('name').notEmpty().matches(/^[a-zA-Z\s]*$/).escape().trim().withMessage("Ad düzgün doldurulmayıb"),
+              body('lastname').notEmpty().matches(/^[a-zA-Z\s]*$/).escape().trim().withMessage("Soyad düzgün doldurulmayıb"),
+              body('email').notEmpty().isEmail().normalizeEmail().escape().trim().withMessage("E-mail  düzgün doldurulmayıb").custom(value => {
+                     return (async () => {
+                            await prisma.$connect();
+                            const user__ = await prisma.user.findUnique({
+                                   where:{
+                                          email: value
+                                   }
+                            })  
+                            if(user__) {
+                                   throw new Error("Email mövcuddur")
+                            }
+                     })()
+              }),
+              body('phone').notEmpty().matches(/^[+]?[0-9]{3}?[(]?[0-9]{2}[)]?[0-9]{4,7}$/).escape().trim().withMessage("Nömrə düzgün doldurulmayıb"),
+              body('password').isLength({min:6}).escape().trim().withMessage("Şifrə düzgün doldurulmayıb"),
+              body('adress').notEmpty().escape().trim()
+       ]
+}
+app.post('/api/stroyka/register/user',validationRuleRegister(),UserAPI.UserRegister)
+app.post('/api/stroyka/login/user',UserAPI.UserLogin)
 module.exports=app.listen(port,() => {
        console.log('Listening');
 })

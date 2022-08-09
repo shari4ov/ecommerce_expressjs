@@ -71,6 +71,16 @@ model aboutus {
   context String
 }
 
+model user {
+  uniq_id  String @unique @db.VarChar(255)
+  name     String @db.VarChar(100)
+  lastname String @db.VarChar(100)
+  phone    String @db.VarChar(100)
+  password String @db.VarChar(255)
+  email    String @unique @db.VarChar(150)
+  adress   String @db.Text
+}
+
 enum ProductStatus {
   active
   deactive
