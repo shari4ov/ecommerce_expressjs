@@ -4,7 +4,11 @@ const {validationResult} =require('express-validator')
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 var jwt = require('jsonwebtoken');
-const JWT_SECRET = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+const dotenv = require('dotenv');
+
+dotenv.config();
+process.env.TOKEN_SECRET;
+
 const UserRegister = async (req,res) => {
        try {
               const errors  = validationResult(req)
@@ -55,9 +59,13 @@ const UserLogin = async (req,res,next) => {
                      const checkPassword = bcrypt.compareSync(req.body.password,user.password)
                      if(!checkPassword) return res.status(422).json({msg:"Şifrə düzgün deyil"})
                      const token = jwt.sign({
-                            id:user.uniq_id,name:user.name
-                     },JWT_SECRET,{expiresIn:'24h'})
-                     res.status(200).json({msg:token})
+                            id:user.uniq_id,name:user.name,
+                            lastname:user.lastname,
+                            phone:user.phone,
+                            email:user.email,
+                            adress:user.adress       
+                     },process.env.TOKEN_SECRET,{expiresIn:'24h'})
+                     res.status(200).json(token)
               }catch(e) {
                      console.log(e);
                      res.status(500).json({msg: "Server error"})
@@ -68,7 +76,17 @@ const UserLogin = async (req,res,next) => {
               res.status(500).json({msg:"Invalid"})
        }
 }
+const UserLogout = async (req,res) => {
+       try{ 
+              const token =  jwt.sign({},process.env.TOKEN_SECRET,{expiresIn:'1ms'})
+              res.status(200).json(token)
+       } catch(e) {
+              console.log(e);
+              res.status(404).json({msg:"Invalid"})
+       }
+}
 module.exports= { 
        UserRegister,
-       UserLogin
+       UserLogin,
+       UserLogout
 }
