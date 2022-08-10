@@ -56,7 +56,7 @@ const UserLogin = async (req,res,next) => {
                      if(!checkPassword) return res.status(422).json({msg:"Şifrə düzgün deyil"})
                      const token = jwt.sign({
                             id:user.uniq_id,name:user.name
-                     },JWT_SECRET)
+                     },JWT_SECRET,{expiresIn:'24h'})
                      res.status(200).json({msg:token})
               }catch(e) {
                      console.log(e);

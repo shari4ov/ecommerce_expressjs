@@ -161,6 +161,37 @@ const filterPriceByCategory = async(req,res) => {
               res.status(404).json({msg:"Invalid"})
        }
 }
+const liveSearchProduct = async (req,res) => {
+       try {
+              const requestParam = req.query.search;
+              console.log(requestParam);
+              await prisma.$connect;
+              try {
+                     const productSearch = await prisma.product.findMany({
+                            where:{
+                                   name:{
+                                          contains:requestParam
+                                   }
+                            }
+                     })
+                     const productSearchCount = await prisma.product.count({
+                            where:{
+                                   name:{
+                                          contains:requestParam
+                                   }
+                            }
+                     })
+                     res.status(200).json({count:productSearchCount,data:productSearch})
+              }catch(e) {
+                     console.log(e);
+                     res.status(500).json({msg: "Server error"})
+              }
+
+       }  catch(e) {
+              console.log(e);
+              res.status(404).json({msg:"Invalid"})
+       }
+}
 module.exports = {
        getProduct,
        getProductByID,
@@ -169,5 +200,6 @@ module.exports = {
        getProductByAltCategory,
        filterPriceBySubCat,
        filterPriceByAltCat,
-       filterPriceByCategory
+       filterPriceByCategory,
+       liveSearchProduct
 }
