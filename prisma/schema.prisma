@@ -11,53 +11,60 @@ datasource db {
 }
 
 model category {
-  id          Int           @unique
-  uniq_id     String        @unique
-  name        String        @db.VarChar(100)
-  subcategory subcategory[]
-  altcategory altcategory[]
-  product     product[]
+  id          Int          @id @default(autoincrement())
+  uniq_id     String       @unique
+  name        String       @db.VarChar(100)
+  subcategory subcategory?
+  altcategory altcategory?
+  product     product?
 }
 
 model subcategory {
-  id          Int           @unique
-  uniq_id     String        @unique
-  name        String        @db.VarChar(100)
-  cateogry    category      @relation(fields: [category_id], references: [id])
-  category_id Int
-  altcategory altcategory[]
-  product     product[]
+  id          Int          @id @default(autoincrement())
+  uniq_id     String       @unique
+  name        String       @db.VarChar(100)
+  category    category?    @relation(fields: [category_id], references: [uniq_id])
+  category_id String       @unique @db.VarChar(255)
+  altcategory altcategory?
+  product     product?
 }
 
 model altcategory {
-  id          Int         @unique
+  id          Int         @id @default(autoincrement())
   uniq_id     String      @unique
   name        String      @db.VarChar(100)
-  subcategory subcategory @relation(fields: [subcat_id], references: [id])
-  category    category    @relation(fields: [cat_id], references: [id])
-  cat_id      Int
-  subcat_id   Int
-  product     product[]
+  subcategory subcategory @relation(fields: [subcat_id], references: [uniq_id])
+  category    category    @relation(fields: [cat_id], references: [uniq_id])
+  cat_id      String      @unique
+  subcat_id   String      @unique
+  product     product?
 }
 
 model product {
+  id            Int           @id @default(autoincrement())
   uniq_id       String        @unique
-  name          String
-  description   Json
-  specification Json
-  price         Float
+  name          String        @db.VarChar(255)
+  description   Json          @db.Json
+  specification Json          @db.Json
+  price         Float         @db.Float
   status        ProductStatus
-  weight        Float
-  model         String
-  altcategory   altcategory   @relation(fields: [altcat_id], references: [id])
-  altcat_id     Int
-  subcategory   subcategory   @relation(fields: [subcat_id], references: [id])
-  subcat_id     Int
-  cat_id        Int
-  category      category      @relation(fields: [cat_id], references: [id])
+  weight        Float         @db.Float
+  model         String        @db.VarChar(255)
+  images        String        @db.VarChar(255)
+  code          String        @db.VarChar(255)
+  isBestseller  Boolean       @db.TinyInt
+  isFeatured    Boolean       @db.TinyInt
+  altcategory   altcategory?  @relation(fields: [altcat_id], references: [uniq_id])
+  altcat_id     String        @unique
+  subcategory   subcategory?  @relation(fields: [subcat_id], references: [uniq_id])
+  subcat_id     String        @unique
+  cat_id        String        @unique
+  category      category      @relation(fields: [cat_id], references: [uniq_id])
+  checkout      checkout?
 }
 
 model contact {
+  id      Int    @id @default(autoincrement())
   uniq_id String @unique
   name    String @db.VarChar(255)
   email   String @db.VarChar(255)
@@ -66,19 +73,39 @@ model contact {
 }
 
 model aboutus {
+  id      Int    @id @default(autoincrement())
   uniq_id String @unique
   title   String
   context String
 }
 
 model user {
-  uniq_id  String @unique @db.VarChar(255)
-  name     String @db.VarChar(100)
-  lastname String @db.VarChar(100)
-  phone    String @db.VarChar(100)
-  password String @db.VarChar(255)
-  email    String @unique @db.VarChar(150)
-  adress   String @db.Text
+  uniq_id  String     @unique @db.VarChar(255)
+  name     String     @db.VarChar(100)
+  lastname String     @db.VarChar(100)
+  phone    String     @db.VarChar(100)
+  password String     @db.VarChar(255)
+  email    String     @unique @db.VarChar(150)
+  adress   String     @db.Text
+  checkout checkout[]
+}
+
+model checkout {
+  uniq_id      String   @unique @db.VarChar(255)
+  productCount Int      @db.Int
+  orderAdress  String   @db.Text
+  user         user     @relation(fields: [userId], references: [uniq_id])
+  userId       String   @unique @db.VarChar(255)
+  product      product? @relation(fields: [productId], references: [uniq_id])
+  productId    String   @unique @db.VarChar(255)
+}
+
+model slider {
+  uniq_id     String @unique @db.VarChar(255)
+  title       String @db.Text
+  description String @db.Text
+  image       String @db.VarChar(255)
+  path        String @db.VarChar(255)
 }
 
 enum ProductStatus {

@@ -12,144 +12,53 @@ const categoryAPI = require('./controller/CategoryController')
 const contactAPI = require('./controller/ContactController')
 const aboutUsAPI  = require('./controller/AboutUsController');
 const UserAPI = require('./controller/UserController');
+const checkOutAPI = require('./controller/CheckOutController')
+const sliderAPI = require('./controller/SliderController')
 var {body} = require('express-validator');
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
+require('./routes/admin_route')(app)
+app.get('/api/stroyka/get/products/all',productAPI.getProduct)
+app.get('/api/stroyka/get/products/byId/:id',productAPI.getProductByID)
+app.get('/api/stroyka/get/products/byCategory/:category',productAPI.getProductByCategory)
+app.get('/api/stroyka/get/products/bySubCategory/:subCategory',productAPI.getProductBySubCategory)
+app.get('/api/stroyka/get/products/byAltCategory/:altCategory',productAPI.getProductByAltCategory)
 
-app.get('/api/stroyka/get/products/all',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},productAPI.getProduct)
-app.get('/api/stroyka/get/products/byId/:id',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},productAPI.getProductByID)
-app.get('/api/stroyka/get/products/byCategory/:category',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},productAPI.getProductByCategory)
-app.get('/api/stroyka/get/products/bySubCategory/:subCategory',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},productAPI.getProductBySubCategory)
-app.get('/api/stroyka/get/products/byAltCategory/:altCategory',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},productAPI.getProductByAltCategory)
+app.get('/api/stroyka/get/altcategories',altCategoryAPI.getAltCategories)
+app.get('/api/stroyka/get/altcategoriesBySubCatID/:id',altCategoryAPI.getAltCategoriesBySubCategory)
 
-app.get('/api/stroyka/get/altcategories',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},altCategoryAPI.getAltCategories)
-app.get('/api/stroyka/get/altcategoriesBySubCatID/:id',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},altCategoryAPI.getAltCategoriesBySubCategory)
+app.get('/api/stroyka/get/subcategories',subCatAPI.getSubCats)
+app.get('/api/stroyka/get/subcategoriesByCatID/:id',subCatAPI.getSubCatsByCatID)
 
-app.get('/api/stroyka/get/subcategories',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},subCatAPI.getSubCats)
-app.get('/api/stroyka/get/subcategoriesByCatID/:id',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},subCatAPI.getSubCatsByCatID)
+app.get('/api/stroyka/get/categories',categoryAPI.getCategories)
+app.get('/api/stroyka/get/about',aboutUsAPI.getAbout)
+app.get('/api/stroyka/get/slider',sliderAPI.getSliders)
+app.post('/api/stroyka/filter/product/subcategory',productAPI.filterPriceBySubCat)
+app.post('/api/stroyka/filter/product/category',productAPI.filterPriceByCategory)
+app.post('/api/stroyka/filter/product/altcategory',productAPI.filterPriceByAltCat)
 
-app.get('/api/stroyka/get/categories',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},categoryAPI.getCategories)
-app.get('/api/stroyka/get/about',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},aboutUsAPI.getAbout)
-app.post('/api/stroyka/filter/product/subcategory',middlewares_auth.authenticateToken,middlewares_validation.validationRuleFilterProduct("subcategory"),(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},productAPI.filterPriceBySubCat)
-app.post('/api/stroyka/filter/product/category',middlewares_auth.authenticateToken,middlewares_validation.validationRuleFilterProduct("category"),(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},productAPI.filterPriceByCategory)
-app.post('/api/stroyka/filter/product/altcategory',middlewares_auth.authenticateToken,middlewares_validation.validationRuleFilterProduct("altcategory"),(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},productAPI.filterPriceByAltCat)
-
-app.post('/api/stroyka/contactus/',middlewares_auth.authenticateToken,middlewares_validation.validationRuleContact(),(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},contactAPI.postContact)
+app.post('/api/stroyka/contactus/',contactAPI.postContact)
 
 
-app.post('/api/stroyka/register/user',middlewares_validation.validationRuleRegister(),(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},UserAPI.UserRegister)
+app.post('/api/stroyka/register/user',UserAPI.UserRegister)
 app.post('/api/stroyka/login/user',UserAPI.UserLogin)
-app.get('/api/stroyka/product/livesearch',middlewares_auth.authenticateToken,(err, req, res, next)=>{
-       if (err.name === "TokenExpiredError") {
-             return res.status(401).send("invalid token...");
-       } else {
-              next();
-       }
-},productAPI.liveSearchProduct);
+app.get('/api/stroyka/product/livesearch',productAPI.liveSearchProduct);
 
-app.get('/api/stroyka/logout/user',middlewares_auth.authenticateToken,(err, req, res, next)=>{
+app.post('/api/stroyka/logout/user',middlewares_auth.authenticateToken,(err, req, res, next)=>{
        if (err.name === "TokenExpiredError") {
              return res.status(401).send("invalid token...");
        } else {
               next();
        }
 },UserAPI.UserLogout)
+app.post('/api/stroyka/checkout',middlewares_auth.authenticateToken,(err,req,res,next) => {
+       if(err.name === "TokenExpiredError") {
+              return res.status(401).send("Invalid token");
+       } else {
+              next();
+       }
+},checkOutAPI.checkOut)
+
 module.exports=app.listen(port,() => {
        console.log('Listening');
 })

@@ -1,6 +1,8 @@
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 const {validationResult} =require('express-validator')
+const crypto = require("crypto");
+
 
 const getProduct = async (req,res) => {
        try{
@@ -13,11 +15,16 @@ const getProduct = async (req,res) => {
 }
 const getProductByID = async (req,res) => {
        try {
-              let search_id = req.params.id
+              let search_id = (req.params.id)
               await prisma.$connect;
-              const product  = await prisma.product.findOne({
+              const product  = await prisma.product.findUnique({
                      where:{
-                            id: search_id
+                            uniq_id: search_id
+                     },
+                     include:{
+                            category:true,
+                            subcategory:true,
+                            altcategory:true
                      }
               })
               res.status(200).json(product)
@@ -192,6 +199,40 @@ const liveSearchProduct = async (req,res) => {
               res.status(404).json({msg:"Invalid"})
        }
 }
+const createNewProduct = async (req,res)=>{
+       try{
+              let images__tmp = [];
+              req.files.forEach(item => {
+                     images__tmp.push(item.path)
+              })
+              console.log(req.files);
+              await prisma.$connect;
+              let uniq_id__tmp =crypto.randomBytes(8).toString("hex");
+              const newProduct = await prisma.product.create({
+                     data :{ 
+                            uniq_id:uniq_id__tmp,
+                            name : JSON.stringify(req.body.name),
+                            description : JSON.stringify(req.body.description),
+                            specification :JSON.stringify(req.body.specification),
+                            price :parseFloat(req.body.price),
+                            status : req.body.status,
+                            weight :  parseFloat(req.body.weight),
+                            model : req.body.model,
+                            images : JSON.stringify(images__tmp),
+                            code : req.body.code,
+                            isBestseller: Boolean(req.body.isBestseller),
+                            isFeatured: Boolean(req.body.isFeatured),
+                            altcat_id:req.body.altcat_id,
+                            subcat_id:req.body.subcat_id,
+                            cat_id:req.body.cat_id
+                     }
+              })
+              res.status(201).send("Successfully created");
+       } catch(e) {
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 module.exports = {
        getProduct,
        getProductByID,
@@ -201,5 +242,6 @@ module.exports = {
        filterPriceBySubCat,
        filterPriceByAltCat,
        filterPriceByCategory,
-       liveSearchProduct
+       liveSearchProduct,
+       createNewProduct
 }
