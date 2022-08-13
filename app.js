@@ -15,8 +15,12 @@ const UserAPI = require('./controller/UserController');
 const checkOutAPI = require('./controller/CheckOutController')
 const sliderAPI = require('./controller/SliderController')
 var {body} = require('express-validator');
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
+
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
+
 require('./routes/admin_route')(app)
 app.get('/api/stroyka/get/products/all',productAPI.getProduct)
 app.get('/api/stroyka/get/products/byId/:id',productAPI.getProductByID)
@@ -58,6 +62,7 @@ app.post('/api/stroyka/checkout',middlewares_auth.authenticateToken,(err,req,res
               next();
        }
 },checkOutAPI.checkOut)
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 module.exports=app.listen(port,() => {
        console.log('Listening');

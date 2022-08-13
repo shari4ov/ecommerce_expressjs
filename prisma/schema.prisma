@@ -41,7 +41,6 @@ model altcategory {
 }
 
 model product {
-  id            Int           @id @default(autoincrement())
   uniq_id       String        @unique
   name          String        @db.VarChar(255)
   description   Json          @db.Json
