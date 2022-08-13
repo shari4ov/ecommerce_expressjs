@@ -481,6 +481,11 @@
             "name": "search",
             "in": "query",
             "type": "string"
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "type": "string"
           }
         ],
         "responses": {

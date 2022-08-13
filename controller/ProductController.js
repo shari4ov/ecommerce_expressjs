@@ -171,23 +171,62 @@ const filterPriceByCategory = async(req,res) => {
 const liveSearchProduct = async (req,res) => {
        try {
               const requestParam = req.query.search;
-              console.log(requestParam);
+              const requestLanguage = req.query.lang
               await prisma.$connect;
               try {
-                     const productSearch = await prisma.product.findMany({
+                     let productSearch='';
+                     let productSearchCount='';
+                     if(requestLanguage=='az') {
+                            productSearch = await prisma.product.findMany({
+                                   where:{
+                                          name_az:{
+                                                 contains:requestParam
+                                          }
+                                   }
+                            })
+                     } else if(requestLanguage=='en') {
+                            productSearch = await prisma.product.findMany({
+                                   where:{
+                                          name_en:{
+                                                 contains:requestParam
+                                          }
+                                   }
+                            })
+                     } else {
+                            productSearch = await prisma.product.findMany({
+                                   where:{
+                                          name_ru:{
+                                                 contains:requestParam
+                                          }
+                                   }
+                            })
+                     }
+                    if(requestLanguage=='az'){
+                            productSearchCount= await prisma.product.count({
+                                   where:{
+                                          name_az:{
+                                                 contains:requestParam
+                                          }
+                                   }
+                            })
+                    } else if(requestLanguage=='en') {
+                            productSearchCount= await prisma.product.count({
+                                   where:{
+                                          name_en:{
+                                                 contains:requestParam
+                                          }
+                                   }
+                            })
+                    } else {
+                     productSearchCount= await prisma.product.count({
                             where:{
-                                   name:{
+                                   name_ru:{
                                           contains:requestParam
                                    }
                             }
                      })
-                     const productSearchCount = await prisma.product.count({
-                            where:{
-                                   name:{
-                                          contains:requestParam
-                                   }
-                            }
-                     })
+                    }
+                    
                      res.status(200).json({count:productSearchCount,data:productSearch})
               }catch(e) {
                      console.log(e);
