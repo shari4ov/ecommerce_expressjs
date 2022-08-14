@@ -6,6 +6,7 @@ const crypto = require("crypto");
 
 const getProduct = async (req,res) => {
        try{
+              // swagger.tags = ['Product']
               await prisma.$connect;
               const products = await prisma.product.findMany();
               res.status(200).json(products)

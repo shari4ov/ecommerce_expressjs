@@ -21,6 +21,14 @@ const storageSlider = multer.diskStorage({
            cb(null,`${file.fieldname}-${name}.${crypto.randomBytes(8).toString("hex")}${path.extname(file.originalname)}`);
        }
 })
+const storageBanner = multer.diskStorage({
+       destination: "./public/uploads/banner",
+       filename: function (req,file,cb) {
+           let date = new Date();
+           let name = `${date.getMonth()+1}.${date.getDay()}.${date.getFullYear()}`
+           cb(null,`${file.fieldname}-${name}.${crypto.randomBytes(8).toString("hex")}${path.extname(file.originalname)}`);
+       }
+})
 var error_response = {errors:[]};
 function checkFileTypePhoto(file,cb) {
     if (file.mimetype == "image/jpeg" || file.mimetype=="image/png") {
@@ -47,10 +55,22 @@ const uploadSlider = multer({
               checkFileTypePhoto(file,cb)
            }
        }
-}).single('image')
-
+}).fields([
+    {name:"image",maxCount:1},
+    {name:"mobile_image",maxCount:1}
+])
+const uploadBanner = multer({
+    storage:storageProduct,
+    limits: {filesize:5000000},
+    fileFilter:function (req,file,cb){
+        if(file.fieldname == 'images'){
+           checkFileTypePhoto(file,cb)
+        }
+    }
+}).single("image");
 module.exports =  {
        uploadProduct,
        uploadSlider,
+       uploadBanner,
        error_response
 }

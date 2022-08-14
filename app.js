@@ -14,6 +14,7 @@ const aboutUsAPI  = require('./controller/AboutUsController');
 const UserAPI = require('./controller/UserController');
 const checkOutAPI = require('./controller/CheckOutController')
 const sliderAPI = require('./controller/SliderController')
+const bannerAPI = require('./controller/BannerController')
 var {body} = require('express-validator');
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger_output.json')
@@ -44,7 +45,7 @@ app.post('/api/stroyka/filter/product/altcategory',productAPI.filterPriceByAltCa
 app.post('/api/stroyka/contactus/',contactAPI.postContact)
 
 
-app.post('/api/stroyka/register/user',UserAPI.UserRegister)
+app.post('/api/stroyka/register/user',middlewares_validation.validationRuleRegister,UserAPI.UserRegister)
 app.post('/api/stroyka/login/user',UserAPI.UserLogin)
 app.get('/api/stroyka/product/livesearch',productAPI.liveSearchProduct);
 
@@ -62,6 +63,15 @@ app.post('/api/stroyka/checkout',middlewares_auth.authenticateToken,(err,req,res
               next();
        }
 },checkOutAPI.checkOut)
+app.put('/api/stroyka/user/update/password',middlewares_auth.authenticateToken,(err,req,res,next)=>{
+       if(err) {
+              return res.status(401).send("Invalid token")
+       }
+       next()
+},UserAPI.UserChangePass);
+app.get('/api/stroyka/users/list',UserAPI.UserList)
+app.get('/api/stroyka/banners/list',bannerAPI.getBanner)
+
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 module.exports=app.listen(port,() => {

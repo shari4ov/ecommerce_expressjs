@@ -7,6 +7,16 @@
   },
   "host": "localhost:3000",
   "basePath": "/",
+  "components":{
+    "securitySchemes":{
+      "bearerAuth":    {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"   
+      }       
+    }
+   
+  },
   "schemes": [
     "http"
   ],
@@ -436,6 +446,7 @@
       }
     },
     "/api/stroyka/login/user": {
+      
       "post": {
         "tags": ["User"],        
         "description": "",
@@ -503,6 +514,9 @@
     },
     "/api/stroyka/logout/user": {
       "post": {
+        "security":{
+        "bearerAuth": []      
+      },
         "tags": ["User"],
         "description": "",
         "parameters": [],
@@ -521,6 +535,9 @@
     },
     "/api/stroyka/checkout": {
       "post": {
+        "security":[{
+          "bearerAuth": []      
+        }],
         "tags": ["User"],
         "description": "",
         "parameters": [
@@ -761,6 +778,130 @@
             "description": "Not Implemented"
           }
         }
+      }
+    },
+    "/api/admin/user/list" :{
+      "get" : {
+        "tags":["Admin"],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/stroyka/user/update/password" :{
+      "put" :{
+        "security": [
+          {
+             "Authorization": []
+          }
+        ],
+        "tags":["User"],
+        "required":true,
+        "description":"",
+        "parameters":[
+          {
+            "name":"body",
+            "in":"body",
+            "schema":{
+              "type" :"object",
+              "properties":{
+                "uniq_id":{
+                  "type":"string"
+                },
+                "email": {
+                  "type":"string"
+                },
+                "password":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/stroyka/users/list":{
+      "get":{
+        "tags":["User"],
+        "description":"",
+        "parameters":[],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/api/stroyka/banners/list":{
+      "get":{
+        "tags":["Banner"],
+        "description":"",
+        "parameters":[],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/api/admin/createNewBanner" :{
+      "post" :{
+        "tags" : ["Banner"],
+        "description":"",
+        "parameters" : [
+          {
+            "name" : "body",
+            "in" : "body",
+            "schema": {
+              "type" :"object",
+              "properties":{
+                "title":{
+                  "type":"object"
+                },
+                "description":{
+                  "type":"object"
+                },
+                "image" :{
+                  "type":"string",
+                  "format" :"binary"
+                }
+              }
+            }
+          }
+        ]
       }
     }
   }

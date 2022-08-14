@@ -42,10 +42,6 @@ const UserRegister = async (req,res) => {
 }
 const UserLogin = async (req,res,next) => {
        try {
-              const errors  = validationResult(req)
-              if(!errors.isEmpty()){
-                     return res.status(400).json({errors:errors.array()})
-              }
               await prisma.$connect;
               try{
                      const user = await prisma.user.findUnique({
@@ -85,8 +81,60 @@ const UserLogout =  (req,res) => {
               res.status(404).json({msg:"Invalid"})
        }
 }
+const UserChangePass = async (req,res) => {
+       try{ 
+              let user_uniq_id = req.body.uniq_id;
+              let user_email = req.body.email;
+              let user_pass = req.body.password; 
+              try{
+                     await prisma.$connect;
+                     const user__ = await prisma.user.findUniqueOrThrow({
+                            where:{
+                                   uniq_id:user_uniq_id
+                            }
+                     })
+                     if(user__.email == user_email) {
+                            let password_hash = await bcrypt.hash(user_pass,10)
+                            const updatedUser = await prisma.user.update({
+                                   where:{
+                                          email:user_email
+                                   },
+                                   data:{
+                                          password: password_hash
+                                   }
+                            })
+                            res.status(202).send("Updated");
+                     }
+                     res.status(404)
+              } catch(e){
+                     console.log(e);
+                     res.status(501)
+              }
+
+       } catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
+const UserList = async (req,res) =>{ 
+      try {
+             try {
+                     await prisma.$connect;
+                     const users = await prisma.user.findMany();
+                     res.status(200).json(users)
+              }catch(e){
+                     console.log(e);
+                     res.status(501)
+              }
+       }catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 module.exports= { 
        UserRegister,
        UserLogin,
-       UserLogout
+       UserLogout,
+       UserList,
+       UserChangePass 
 }

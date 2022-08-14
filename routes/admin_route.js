@@ -3,6 +3,7 @@ const categoryAPI = require('../controller/CategoryController')
 const subCatAPI = require('../controller/SubCategoryController')
 const altCategoryAPI = require("../controller/AltCategoryController");
 const sliderAPI = require('../controller/SliderController');
+const bannerAPI = require('../controller/BannerController');
 const upload = require('../middlewares/file_upload');
 const bodyParser = require('body-parser');
 var parseForm = bodyParser.urlencoded({ extended: true });
@@ -24,4 +25,11 @@ module.exports= (app) => {
               }
               next()
        },sliderAPI.createNewSlider)
+       app.post('/api/admin/createNewBanner',upload.uploadBanner,parseForm,async function(req,res,next){
+              if(upload.error_response.errors.length > 0) {
+                     res.status(402).json(upload.error_response)
+                    return upload.error_response.errors = []
+              }
+              next()
+       },bannerAPI.createNewBanner)
 }

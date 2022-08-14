@@ -13,7 +13,7 @@ datasource db {
 model category {
   id          Int          @id @default(autoincrement())
   uniq_id     String       @unique
-  name        String       @db.VarChar(100)
+  name        Json         @db.Json
   subcategory subcategory?
   altcategory altcategory?
   product     product?
@@ -22,7 +22,7 @@ model category {
 model subcategory {
   id          Int          @id @default(autoincrement())
   uniq_id     String       @unique
-  name        String       @db.VarChar(100)
+  name        Json         @db.Json
   category    category?    @relation(fields: [category_id], references: [uniq_id])
   category_id String       @unique @db.VarChar(255)
   altcategory altcategory?
@@ -32,7 +32,7 @@ model subcategory {
 model altcategory {
   id          Int         @id @default(autoincrement())
   uniq_id     String      @unique
-  name        String      @db.VarChar(100)
+  name        Json        @db.Json
   subcategory subcategory @relation(fields: [subcat_id], references: [uniq_id])
   category    category    @relation(fields: [cat_id], references: [uniq_id])
   cat_id      String      @unique
@@ -76,8 +76,8 @@ model contact {
 model aboutus {
   id      Int    @id @default(autoincrement())
   uniq_id String @unique
-  title   String
-  context String
+  title   Json   @db.Json
+  context Json   @db.Json
 }
 
 model user {
@@ -102,11 +102,20 @@ model checkout {
 }
 
 model slider {
+  uniq_id            String @unique @db.VarChar(255)
+  title              Json   @db.Json
+  description        Json   @db.Json
+  image              String @db.VarChar(255)
+  mobile_image       String @db.VarChar(255)
+  mobile_description Json   @db.Json
+  path               String @db.VarChar(255)
+}
+
+model banner {
   uniq_id     String @unique @db.VarChar(255)
-  title       String @db.Text
-  description String @db.Text
   image       String @db.VarChar(255)
-  path        String @db.VarChar(255)
+  title       Json   @db.Json
+  description Json   @db.Json
 }
 
 enum ProductStatus {

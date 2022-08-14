@@ -13,7 +13,9 @@ const createNewSlider= async(req,res) => {
                                    uniq_id:uniq_id__tmp,
                                    title:req.body.title,
                                    description:req.body.description,
-                                   image:req.file.path,
+                                   image:req.files.image[0].path,
+                                   mobile_image: req.files.mobile_image[0].path,
+                                   mobile_description:req.body.mobile_description,
                                    path:req.body.path
                             }
                      })
