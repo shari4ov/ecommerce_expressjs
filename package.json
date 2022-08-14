@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "watch": "nodemon app.js",
+    "preinstall": "npm i nodemon -g",
+    "start": "nodemon app.js",
     "test": "mocha",
     "swagger-autogen": "node swagger.js"
   },
