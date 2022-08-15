@@ -381,6 +381,10 @@
                 },
                 "message": {
                   "type": "string"
+                },
+                "source":{
+                  "type" :"string",
+                  "enum" :["contact","askQuestion","writeDirector" ]
                 }
               }
             }
@@ -903,6 +907,82 @@
           }
         ]
       }
-    }
-  }
+    },
+    "/api/admin/delete/category" :{ 
+      "delete" :{
+        "tags":["Category"],
+        "description":"",
+        "parameters" : [
+          {
+            "name" : "body",
+            "in" : "body",
+            "schema": {
+              "type" :"object",
+              "properties":{
+                "uniq_id":{
+                  "type":"string"
+                }
+              }
+            }
+          }]
+        }
+     },
+     "/api/admin/delete/subcategory" :{ 
+      "delete" :{
+        "tags":["Category"],
+        "description":"",
+        "parameters" : [
+          {
+            "name" : "body",
+            "in" : "body",
+            "schema": {
+              "type" :"object",
+              "properties":{
+                "uniq_id":{
+                  "type":"string"
+                }
+              }
+            }
+          }]
+        }
+     },
+     "/api/admin/delete/altcategory" :{ 
+      "delete" :{
+        "tags":["Category"],
+        "description":"",
+        "parameters" : [
+          {
+            "name" : "body",
+            "in" : "body",
+            "schema": {
+              "type" :"object",
+              "properties":{
+                "uniq_id":{
+                  "type":"string"
+                }
+              }
+            }
+          }]
+        }
+     },
+     "/api/admin/delete/products" :{ 
+      "delete" :{
+        "tags":["Products"],
+        "description":"",
+        "parameters" : [
+          {
+            "name" : "body",
+            "in" : "body",
+            "schema": {
+              "type" :"object",
+              "properties":{
+                "uniq_id":{
+                  "type":"string"
+                }
+              }
+            }
+          }]
+        }
+     }
+}
 }
