@@ -260,6 +260,8 @@ const createNewProduct = async (req,res)=>{
                             model : req.body.model,
                             images : JSON.stringify(images__tmp),
                             code : req.body.code,
+                            type:JSON.stringify(req.body.type),
+                            manufacturer: JSON.stringify(req.body.manufacturer),
                             isBestseller: Boolean(req.body.isBestseller),
                             isFeatured: Boolean(req.body.isFeatured),
                             altcat_id:req.body.altcat_id,

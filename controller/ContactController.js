@@ -16,7 +16,8 @@ const postContact = async (req,res,next) => {
                      email: req.body.email,
                      name: req.body.name,
                      phone:req.body.phone,
-                     message: req.body.message
+                     message: req.body.message,
+                     source: req.body.source
               }
        })
        res.status(201).json({msg: "Successfully submited"});

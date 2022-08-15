@@ -52,6 +52,8 @@ model product {
   weight        Float         @db.Float
   model         String        @db.VarChar(255)
   images        String        @db.VarChar(255)
+  manufacturer  Json
+  type          String
   code          String        @db.VarChar(255)
   isBestseller  Boolean       @db.TinyInt
   isFeatured    Boolean       @db.TinyInt
@@ -65,12 +67,13 @@ model product {
 }
 
 model contact {
-  id      Int    @id @default(autoincrement())
-  uniq_id String @unique
-  name    String @db.VarChar(255)
-  email   String @db.VarChar(255)
-  phone   String @db.VarChar(100)
-  message String @db.Text
+  id      Int           @id @default(autoincrement())
+  uniq_id String        @unique
+  name    String        @db.VarChar(255)
+  email   String        @db.VarChar(255)
+  phone   String        @db.VarChar(100)
+  message String        @db.Text
+  source  ContactSource
 }
 
 model aboutus {
@@ -121,4 +124,10 @@ model banner {
 enum ProductStatus {
   active
   deactive
+}
+
+enum ContactSource {
+  contact
+  askQuestion
+  writeDirector
 }
