@@ -47,8 +47,24 @@ const createNewSubCat = async (req,res) => {
               res.status(500)
        }
 }
+const deleteSubCategory = async (req,res) => {
+       try{
+              await prisma.$connect;
+              const uniq_id__ = req.body.uniq_id;
+              const deleteSubCat = await prisma.subcategory.delete({
+                     where:{
+                            uniq_id:uniq_id__
+                     }
+              })
+              res.status(200).send("Deleted")
+       } catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 module.exports = {
        getSubCats,
        getSubCatsByCatID,
-       createNewSubCat
+       createNewSubCat,
+       deleteSubCategory
 }

@@ -45,8 +45,24 @@ const createNewAltCat = async (req,res) => {
               res.status(500).send("Invalid")
        }
 }
+const deleteAltCategory = async (req,res) =>{ 
+       try{
+              await prisma.$connect;
+              let uniq_id__ = req.body.uniq_id;
+              let deletedAltCat = await prisma.altcategory.delete({
+                     where:{
+                            uniq_id:uniq_id__
+                     }
+              })
+              res.status(200).send("Deleted")
+       } catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 module.exports = {
        getAltCategories,
        getAltCategoriesBySubCategory,
-       createNewAltCat
+       createNewAltCat,
+       deleteAltCategory
 }

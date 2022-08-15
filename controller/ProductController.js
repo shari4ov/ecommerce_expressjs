@@ -2,7 +2,8 @@ const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 const {validationResult} =require('express-validator')
 const crypto = require("crypto");
-
+var fs = require('fs');
+const { json } = require("body-parser");
 
 const getProduct = async (req,res) => {
        try{
@@ -245,13 +246,15 @@ const createNewProduct = async (req,res)=>{
               req.files.forEach(item => {
                      images__tmp.push(item.path)
               })
-              console.log(req.files);
               await prisma.$connect;
+              console.log(req.body);
               let uniq_id__tmp =crypto.randomBytes(8).toString("hex");
               const newProduct = await prisma.product.create({
                      data :{ 
                             uniq_id:uniq_id__tmp,
-                            name : JSON.stringify(req.body.name),
+                            name_az : JSON.stringify(req.body.name_az),
+                            name_ru : JSON.stringify(req.body.name_ru),
+                            name_en : JSON.stringify(req.body.name_en),
                             description : JSON.stringify(req.body.description),
                             specification :JSON.stringify(req.body.specification),
                             price :parseFloat(req.body.price),
@@ -260,17 +263,51 @@ const createNewProduct = async (req,res)=>{
                             model : req.body.model,
                             images : JSON.stringify(images__tmp),
                             code : req.body.code,
-                            type:JSON.stringify(req.body.type),
+                            type:(req.body.type),
                             manufacturer: JSON.stringify(req.body.manufacturer),
                             isBestseller: Boolean(req.body.isBestseller),
                             isFeatured: Boolean(req.body.isFeatured),
-                            altcat_id:req.body.altcat_id,
-                            subcat_id:req.body.subcat_id,
-                            cat_id:req.body.cat_id
+                            altcat_id:(req.body.altcat_id),
+                            subcat_id:(req.body.subcat_id),
+                            cat_id:(req.body.cat_id)
                      }
               })
+              console.log(newProduct);
               res.status(201).send("Successfully created");
        } catch(e) {
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
+
+const deleteProduct = async (req,res) => {
+       try {
+              await prisma.$connect;
+              const uniq_id__ = req.body.uniq_id;
+              const deletedUser__Image = await prisma.product.findUnique({
+                     where:{
+                            uniq_id:uniq_id__
+                     },
+                     select:{
+                            images:true
+                     }
+              })
+              if(deletedUser__Image) {
+                     JSON.parse(deletedUser__Image.images).forEach(item =>{ 
+                            fs.unlink(`${item}`,function(err){
+                                   if(err) throw err;
+                                   console.log('File deleted');
+                            })
+                     })
+                     let deletedProduct = await prisma.product.delete({
+                            where:{
+                                   uniq_id:uniq_id__
+                            }
+                     })
+                   return res.status(200).send("Deleted")
+              }
+              return res.status(404)
+       } catch(e){
               console.log(e);
               res.status(500).send("Invalid")
        }
@@ -285,5 +322,6 @@ module.exports = {
        filterPriceByAltCat,
        filterPriceByCategory,
        liveSearchProduct,
-       createNewProduct
+       createNewProduct,
+       deleteProduct
 }

@@ -35,7 +35,26 @@ const createNewCategory = async(req,res) => {
               res.status(500).send("Invalid")
        }
 }
+
+const deleteCategory = async (req,res) => {
+       try{ 
+               await prisma.$connect;
+
+               let uniq_id__ = req.body.uniq_id;
+
+               const deleteCategory = await prisma.category.delete({
+                     where:{
+                            uniq_id:uniq_id__
+                     }
+               })
+               res.status(200).json("Deleted")
+       } catch(e){
+              console.log(e);
+              res.status(501).send("Invalid")
+       }
+}
 module.exports = {
        getCategories,
-       createNewCategory
+       createNewCategory,
+       deleteCategory
 }

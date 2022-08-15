@@ -32,4 +32,8 @@ module.exports= (app) => {
               }
               next()
        },bannerAPI.createNewBanner)
+       app.delete('/api/admin/delete/category',categoryAPI.deleteCategory);
+       app.delete('/api/admin/delete/subcategory',subCatAPI.deleteSubCategory);
+       app.delete('/api/admin/delete/altcategory',altCategoryAPI.deleteAltCategory);
+       app.delete('/api/admin/delete/products',productAPI.deleteProduct);
 }

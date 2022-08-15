@@ -53,15 +53,15 @@ model product {
   model         String        @db.VarChar(255)
   images        String        @db.VarChar(255)
   manufacturer  Json
-  type          String
+  type          String        @db.VarChar(255)
   code          String        @db.VarChar(255)
   isBestseller  Boolean       @db.TinyInt
   isFeatured    Boolean       @db.TinyInt
   altcategory   altcategory?  @relation(fields: [altcat_id], references: [uniq_id])
-  altcat_id     String        @unique
+  altcat_id     String        @unique @db.VarChar(255)
   subcategory   subcategory?  @relation(fields: [subcat_id], references: [uniq_id])
-  subcat_id     String        @unique
-  cat_id        String        @unique
+  subcat_id     String        @unique @db.VarChar(255)
+  cat_id        String        @unique @db.VarChar(255)
   category      category      @relation(fields: [cat_id], references: [uniq_id])
   checkout      checkout?
 }
