@@ -17,11 +17,19 @@ const getSubCats = async(req,res) => {
 }
 const getSubCatsByCatID = async(req,res) => {
        try{ 
-              let id = parseInt(req.params.id)
+              let category__ = JSON.stringify(req.params.slug);
               await prisma.$connect;
+              const category_id = await prisma.category.findUnique({
+                     where:{
+                            slug:category__
+                     },
+                     select:{
+                            uniq_id:true
+                     }
+              })
               const subCategory = await prisma.subcategory.findMany({
                      where:{
-                            category_id: id
+                            category_id: category_id.uniq_id
                      }
               });
               res.status(200).json(subCategory)
@@ -37,7 +45,10 @@ const createNewSubCat = async (req,res) => {
               const newSubCat = await prisma.subcategory.create({
                      data:{
                             uniq_id:uniq_id__tmp,
-                            name:req.body.name,
+                            name_az:req.body.name_az,
+                            name_ru:req.body.name_ru,
+                            name_en:req.body.name_en,
+                            slug:req.body.slug,
                             category_id:req.body.category_id
                      }
               })

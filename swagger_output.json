@@ -7,23 +7,12 @@
   },
   "host": "localhost:3000",
   "basePath": "/",
-  "components":{
-    "securitySchemes":{
-      "bearerAuth":    {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"   
-      }       
-    }
-   
-  },
   "schemes": [
     "http"
   ],
   "paths": {
     "/api/stroyka/get/products/all": {
       "get": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [],
         "responses": {
@@ -36,13 +25,12 @@
         }
       }
     },
-    "/api/stroyka/get/products/byId/{id}": {
+    "/api/stroyka/get/products/{slug}": {
       "get": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "slug",
             "in": "path",
             "required": true,
             "type": "string"
@@ -60,7 +48,6 @@
     },
     "/api/stroyka/get/products/byCategory/{category}": {
       "get": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -82,7 +69,6 @@
     },
     "/api/stroyka/get/products/bySubCategory/{subCategory}": {
       "get": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -104,7 +90,6 @@
     },
     "/api/stroyka/get/products/byAltCategory/{altCategory}": {
       "get": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -126,7 +111,6 @@
     },
     "/api/stroyka/get/altcategories": {
       "get": {
-        "tags": ["Category"],
         "description": "",
         "parameters": [],
         "responses": {
@@ -141,7 +125,6 @@
     },
     "/api/stroyka/get/altcategoriesBySubCatID/{id}": {
       "get": {
-        "tags": ["Category"],
         "description": "",
         "parameters": [
           {
@@ -163,7 +146,6 @@
     },
     "/api/stroyka/get/subcategories": {
       "get": {
-        "tags": ["Category"],
         "description": "",
         "parameters": [],
         "responses": {
@@ -176,13 +158,12 @@
         }
       }
     },
-    "/api/stroyka/get/subcategoriesByCatID/{id}": {
+    "/api/stroyka/get/subcategoriesByCatID/{slug}": {
       "get": {
-        "tags": ["Category"],
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "slug",
             "in": "path",
             "required": true,
             "type": "string"
@@ -200,7 +181,6 @@
     },
     "/api/stroyka/get/categories": {
       "get": {
-        "tags": ["Category"],
         "description": "",
         "parameters": [],
         "responses": {
@@ -215,7 +195,6 @@
     },
     "/api/stroyka/get/about": {
       "get": {
-        "tags": ["About"],
         "description": "",
         "parameters": [],
         "responses": {}
@@ -223,7 +202,6 @@
     },
     "/api/stroyka/get/slider": {
       "get": {
-        "tags": ["Slider"],
         "description": "",
         "parameters": [],
         "responses": {
@@ -241,7 +219,6 @@
     },
     "/api/stroyka/filter/product/subcategory": {
       "post": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -251,13 +228,13 @@
               "type": "object",
               "properties": {
                 "subcategory": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "max_price": {
-                  "type": "number"
+                  "example": "any"
                 },
                 "min_price": {
-                  "type": "number"
+                  "example": "any"
                 }
               }
             }
@@ -266,9 +243,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -281,7 +255,6 @@
     },
     "/api/stroyka/filter/product/category": {
       "post": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -291,13 +264,13 @@
               "type": "object",
               "properties": {
                 "category": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "max_price": {
-                  "type": "number"
+                  "example": "any"
                 },
                 "min_price": {
-                  "type": "number"
+                  "example": "any"
                 }
               }
             }
@@ -306,9 +279,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -321,7 +291,6 @@
     },
     "/api/stroyka/filter/product/altcategory": {
       "post": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -331,13 +300,13 @@
               "type": "object",
               "properties": {
                 "altcategory": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "max_price": {
-                  "type": "number"
+                  "example": "any"
                 },
                 "min_price": {
-                  "type": "number"
+                  "example": "any"
                 }
               }
             }
@@ -346,9 +315,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -361,7 +327,6 @@
     },
     "/api/stroyka/contactus/": {
       "post": {
-        "tags": ["Contact"],
         "description": "",
         "parameters": [
           {
@@ -371,20 +336,19 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "name": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "phone": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "message": {
-                  "type": "string"
+                  "example": "any"
                 },
-                "source":{
-                  "type" :"string",
-                  "enum" :["contact","askQuestion","writeDirector" ]
+                "source": {
+                  "example": "any"
                 }
               }
             }
@@ -402,7 +366,6 @@
     },
     "/api/stroyka/register/user": {
       "post": {
-        "tags": ["User"],
         "description": "",
         "parameters": [
           {
@@ -412,22 +375,22 @@
               "type": "object",
               "properties": {
                 "password": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "name": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "lastname": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "phone": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "email": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "adress": {
-                  "type": "string"
+                  "example": "any"
                 }
               }
             }
@@ -450,9 +413,7 @@
       }
     },
     "/api/stroyka/login/user": {
-      
       "post": {
-        "tags": ["User"],        
         "description": "",
         "parameters": [
           {
@@ -462,10 +423,10 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "password": {
-                  "type": "string"
+                  "example": "any"
                 }
               }
             }
@@ -474,9 +435,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "422": {
             "description": "Unprocessable Entity"
@@ -489,7 +447,6 @@
     },
     "/api/stroyka/product/livesearch": {
       "get": {
-        "tags": ["Products"],
         "description": "",
         "parameters": [
           {
@@ -518,12 +475,21 @@
     },
     "/api/stroyka/logout/user": {
       "post": {
-        "security":{
-        "bearerAuth": []      
-      },
-        "tags": ["User"],
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "uniq_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -539,10 +505,6 @@
     },
     "/api/stroyka/checkout": {
       "post": {
-        "security":[{
-          "bearerAuth": []      
-        }],
-        "tags": ["User"],
         "description": "",
         "parameters": [
           {
@@ -551,17 +513,20 @@
             "schema": {
               "type": "object",
               "properties": {
+                "uniq_id": {
+                  "example": "any"
+                },
                 "count": {
-                  "type": "number"
+                  "example": "any"
                 },
                 "adress": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "userId": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "productId": {
-                  "type": "string"
+                  "example": "any"
                 }
               }
             }
@@ -583,9 +548,8 @@
         }
       }
     },
-    "/api/admin/createNewCategory": {
-      "post": {
-        "tags": ["Admin"],
+    "/api/stroyka/user/update/password": {
+      "put": {
         "description": "",
         "parameters": [
           {
@@ -594,8 +558,93 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "type": "string"
+                "uniq_id": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/api/stroyka/users/list": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/api/stroyka/banners/list": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/api/admin/createNewCategory": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name_az": {
+                  "example": "any"
+                },
+                "name_ru": {
+                  "example": "any"
+                },
+                "name_en": {
+                  "example": "any"
+                },
+                "slug": {
+                  "example": "any"
                 }
               }
             }
@@ -613,7 +662,6 @@
     },
     "/api/admin/createNewSubCat": {
       "post": {
-        "tags": ["Admin"],
         "description": "",
         "parameters": [
           {
@@ -622,11 +670,20 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "type": "string"
+                "name_az": {
+                  "example": "any"
+                },
+                "name_ru": {
+                  "example": "any"
+                },
+                "name_en": {
+                  "example": "any"
+                },
+                "slug": {
+                  "example": "any"
                 },
                 "category_id": {
-                  "type": "string"
+                  "example": "any"
                 }
               }
             }
@@ -644,7 +701,6 @@
     },
     "/api/admin/createNewAltCat": {
       "post": {
-        "tags": ["Admin"],
         "description": "",
         "parameters": [
           {
@@ -653,14 +709,23 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "type": "string"
+                "name_az": {
+                  "example": "any"
+                },
+                "name_ru": {
+                  "example": "any"
+                },
+                "name_en": {
+                  "example": "any"
+                },
+                "slug": {
+                  "example": "any"
                 },
                 "category_id": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "subCategory_id": {
-                  "type": "string"
+                  "example": "any"
                 }
               }
             }
@@ -678,7 +743,6 @@
     },
     "/api/admin/createNewProduct": {
       "post": {
-        "tags": ["Admin"],
         "description": "",
         "parameters": [
           {
@@ -687,45 +751,59 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "type": "string"
+                "name_az": {
+                  "example": "any"
+                },
+                "name_ru": {
+                  "example": "any"
+                },
+                "name_en": {
+                  "example": "any"
+                },
+                "slug": {
+                  "example": "any"
                 },
                 "description": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "specification": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "price": {
-                  "type": "number"
+                  "example": "any"
                 },
                 "status": {
-                  "type": "string",
-                  "enum":["active","deactive"]
+                  "example": "any"
                 },
                 "weight": {
-                  "type": "number"
+                  "example": "any"
                 },
                 "model": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "code": {
-                  "type": "string"
+                  "example": "any"
+                },
+                "type": {
+                  "example": "any"
+                },
+                "manufacturer": {
+                  "example": "any"
                 },
                 "isBestseller": {
-                  "type": "boolean"
+                  "example": "any"
                 },
                 "isFeatured": {
-                  "type": "boolean"
+                  "example": "any"
                 },
                 "altcat_id": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "subcat_id": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "cat_id": {
-                  "type": "string"
+                  "example": "any"
                 }
               }
             }
@@ -746,7 +824,6 @@
     },
     "/api/admin/createNewSlider": {
       "post": {
-        "tags": ["Admin"],
         "description": "",
         "parameters": [
           {
@@ -756,13 +833,16 @@
               "type": "object",
               "properties": {
                 "title": {
-                  "type": "string"
+                  "example": "any"
                 },
                 "description": {
-                  "type": "string"
+                  "example": "any"
+                },
+                "mobile_description": {
+                  "example": "any"
                 },
                 "path": {
-                  "type": "string"
+                  "example": "any"
                 }
               }
             }
@@ -784,46 +864,21 @@
         }
       }
     },
-    "/api/admin/user/list" :{
-      "get" : {
-        "tags":["Admin"],
+    "/api/admin/createNewBanner": {
+      "post": {
         "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/stroyka/user/update/password" :{
-      "put" :{
-        "security": [
+        "parameters": [
           {
-             "Authorization": []
-          }
-        ],
-        "tags":["User"],
-        "required":true,
-        "description":"",
-        "parameters":[
-          {
-            "name":"body",
-            "in":"body",
-            "schema":{
-              "type" :"object",
-              "properties":{
-                "uniq_id":{
-                  "type":"string"
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
                 },
-                "email": {
-                  "type":"string"
-                },
-                "password":{
-                  "type":"string"
+                "description": {
+                  "example": "any"
                 }
               }
             }
@@ -833,26 +888,8 @@
           "200": {
             "description": "OK"
           },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/stroyka/users/list":{
-      "get":{
-        "tags":["User"],
-        "description":"",
-        "parameters":[],
-        "responses": {
-          "200": {
-            "description": "OK"
+          "402": {
+            "description": "Payment Required"
           },
           "500": {
             "description": "Internal Server Error"
@@ -863,17 +900,26 @@
         }
       }
     },
-    "/api/stroyka/banners/list":{
-      "get":{
-        "tags":["Banner"],
-        "description":"",
-        "parameters":[],
+    "/api/admin/delete/category": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "uniq_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
           },
           "501": {
             "description": "Not Implemented"
@@ -881,108 +927,89 @@
         }
       }
     },
-    "/api/admin/createNewBanner" :{
-      "post" :{
-        "tags" : ["Banner"],
-        "description":"",
-        "parameters" : [
+    "/api/admin/delete/subcategory": {
+      "delete": {
+        "description": "",
+        "parameters": [
           {
-            "name" : "body",
-            "in" : "body",
+            "name": "body",
+            "in": "body",
             "schema": {
-              "type" :"object",
-              "properties":{
-                "title":{
-                  "type":"object"
-                },
-                "description":{
-                  "type":"object"
-                },
-                "image" :{
-                  "type":"string",
-                  "format" :"binary"
+              "type": "object",
+              "properties": {
+                "uniq_id": {
+                  "example": "any"
                 }
               }
             }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
       }
     },
-    "/api/admin/delete/category" :{ 
-      "delete" :{
-        "tags":["Category"],
-        "description":"",
-        "parameters" : [
+    "/api/admin/delete/altcategory": {
+      "delete": {
+        "description": "",
+        "parameters": [
           {
-            "name" : "body",
-            "in" : "body",
+            "name": "body",
+            "in": "body",
             "schema": {
-              "type" :"object",
-              "properties":{
-                "uniq_id":{
-                  "type":"string"
+              "type": "object",
+              "properties": {
+                "uniq_id": {
+                  "example": "any"
                 }
               }
             }
-          }]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
         }
-     },
-     "/api/admin/delete/subcategory" :{ 
-      "delete" :{
-        "tags":["Category"],
-        "description":"",
-        "parameters" : [
+      }
+    },
+    "/api/admin/delete/products": {
+      "delete": {
+        "description": "",
+        "parameters": [
           {
-            "name" : "body",
-            "in" : "body",
+            "name": "body",
+            "in": "body",
             "schema": {
-              "type" :"object",
-              "properties":{
-                "uniq_id":{
-                  "type":"string"
+              "type": "object",
+              "properties": {
+                "uniq_id": {
+                  "example": "any"
                 }
               }
             }
-          }]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
         }
-     },
-     "/api/admin/delete/altcategory" :{ 
-      "delete" :{
-        "tags":["Category"],
-        "description":"",
-        "parameters" : [
-          {
-            "name" : "body",
-            "in" : "body",
-            "schema": {
-              "type" :"object",
-              "properties":{
-                "uniq_id":{
-                  "type":"string"
-                }
-              }
-            }
-          }]
-        }
-     },
-     "/api/admin/delete/products" :{ 
-      "delete" :{
-        "tags":["Products"],
-        "description":"",
-        "parameters" : [
-          {
-            "name" : "body",
-            "in" : "body",
-            "schema": {
-              "type" :"object",
-              "properties":{
-                "uniq_id":{
-                  "type":"string"
-                }
-              }
-            }
-          }]
-        }
-     }
-}
+      }
+    }
+  }
 }

@@ -14,14 +14,22 @@ const getAltCategories = async(req,res) => {
 }
 const getAltCategoriesBySubCategory = async(req,res) => {
        try{ 
-              let subCatId = parseInt(req.params.id)
+              let subCatSlug = (req.params.slug)
               await prisma.$connect;
-              const category = await prisma.altcategory.findMany({
+              const subCategory__ = await prisma.subcategory.findUnique({
+                     where :{
+                            slug:subCatSlug
+                     },
+                     select:{
+                            uniq_id:true
+                     }
+              })
+              const altCategory = await prisma.altcategory.findMany({
                      where:{ 
-                            subcat_id: subCatId
+                            subcat_id: subCategory__
                      }
               });
-              res.status(200).json(category)
+              res.status(200).json(altCategory)
        } catch(err) {
               console.log(err);
               res.status(404).send("Invalid")
@@ -34,7 +42,10 @@ const createNewAltCat = async (req,res) => {
               const newAltCat = await prisma.altcategory.create({
                      data:{
                             uniq_id:uniq_id__tmp,
-                            name: JSON.stringify(req.body.name),
+                            name_az: JSON.stringify(req.body.name_az),
+                            name_ru: JSON.stringify(req.body.name_ru),
+                            name_en: JSON.stringify(req.body.name_en),
+                            slug: JSON.stringify(req.body.slug),
                             cat_id: req.body.category_id,
                             subcat_id:req.body.subCategory_id
                      }

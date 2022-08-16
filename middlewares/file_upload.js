@@ -51,7 +51,7 @@ const uploadSlider = multer({
        storage:storageSlider,
        limits: {filesize:5000000},
        fileFilter:function (req,file,cb){
-           if(file.fieldname == 'image'){
+           if(file.fieldname == 'image' || file.fieldname=='mobile_image'){
               checkFileTypePhoto(file,cb)
            }
        }
@@ -63,11 +63,14 @@ const uploadBanner = multer({
     storage:storageProduct,
     limits: {filesize:5000000},
     fileFilter:function (req,file,cb){
-        if(file.fieldname == 'images'){
+        if(file.fieldname == 'image' || file.fieldname=="mobile_image"){
            checkFileTypePhoto(file,cb)
         }
     }
-}).single("image");
+}).fields([
+    {name:"image",maxCount:1},
+    {name:"mobile_image",maxCount:1}
+])
 module.exports =  {
        uploadProduct,
        uploadSlider,

@@ -1,8 +1,6 @@
 const crypto = require("crypto");
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
-
-
 const createNewBanner = async(req,res) => {
        try {
               try{
@@ -14,7 +12,8 @@ const createNewBanner = async(req,res) => {
                                           uniq_id:uniq_id__tmp,
                                           title : JSON.stringify(req.body.title),
                                           description: JSON.stringify(req.body.description),
-                                          image: req.file.path
+                                          image:req.files.image[0].path,
+                                          mobile_image: req.files.mobile_image[0].path,
                                    }
                             })
                             res.status(200).send("Created");

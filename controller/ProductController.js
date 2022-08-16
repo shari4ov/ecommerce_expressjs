@@ -4,6 +4,7 @@ const {validationResult} =require('express-validator')
 const crypto = require("crypto");
 var fs = require('fs');
 const { json } = require("body-parser");
+const { isAsyncFunction } = require("util/types");
 
 const getProduct = async (req,res) => {
        try{
@@ -17,11 +18,11 @@ const getProduct = async (req,res) => {
 }
 const getProductByID = async (req,res) => {
        try {
-              let search_id = (req.params.id)
+              let search__ = JSON.stringify(req.params.slug)
               await prisma.$connect;
               const product  = await prisma.product.findUnique({
                      where:{
-                            uniq_id: search_id
+                            slug: search__
                      },
                      include:{
                             category:true,
@@ -37,12 +38,25 @@ const getProductByID = async (req,res) => {
 }
 const getProductByCategory = async (req,res) => {
        try{
-              const category_search = parseInt(req.params.category);
+              const category_search = JSON.stringify(req.params.category);
               await prisma.$connect;
+              const category__ = await prisma.category.findUnique({
+                     where:{
+                            slug:category_search
+                     },
+                     select:{
+                            uniq_id:true
+                     }
+              })
               const products = await prisma.product.findMany({
-                    where:{
-                     cat_id:category_search
-                    }
+                     where:{
+                            cat_id:category__.uniq_id
+                     },
+                     include:{
+                            category:true,
+                            subcategory:true,
+                            altcategory:true
+                     }
               })
               res.status(200).json(products)
        } catch(e) {
@@ -52,11 +66,24 @@ const getProductByCategory = async (req,res) => {
 }
 const getProductBySubCategory = async (req,res) => {
        try{
-              const subCategory = parseInt(req.params.subCategory);
+              const subCategory_search = (req.params.subCategory);
               await prisma.$connect;
+              const subcategory__ = await prisma.subcategory.findUnique({
+                     where:{
+                            slug:subCategory_search
+                     },
+                     select:{
+                            uniq_id:true
+                     }
+              })
               const products = await prisma.product.findMany({
                      where:{
-                            subcat_id:subCategory
+                            subcat_id:subcategory__.uniq_id
+                     },
+                     include:{
+                            category:true,
+                            subcategory:true,
+                            altcategory:true
                      }
               })
               res.status(200).json(products)
@@ -67,11 +94,25 @@ const getProductBySubCategory = async (req,res) => {
 }
 const getProductByAltCategory = async (req,res) => {
        try{
-              const altCategory = parseInt(req.params.altCategory);
+              const altCategory = JSON.stringify(req.params.altCategory);
+              
               await prisma.$connect;
+              const altcategory__ = await prisma.altcategory.findUnique({
+                     where:{
+                            slug:altCategory
+                     },
+                     select:{
+                            uniq_id:true
+                     }
+              })
               const products = await prisma.product.findMany({
                      where:{
-                            altcat_id:altCategory
+                            altcat_id:altcategory__.uniq_id
+                     },
+                     include:{
+                            category:true,
+                            subcategory:true,
+                            altcategory:true
                      }
               })
               res.status(200).json(products)
@@ -83,12 +124,8 @@ const getProductByAltCategory = async (req,res) => {
 const filterPriceBySubCat = async(req,res) => {
        try{
               await prisma.$connect;
-              try{ 
-                     const errors  = validationResult(req)
-                     if(!errors.isEmpty()){
-                            return res.status(400).json({errors:errors.array()})
-                     }              
-                     let subcategory = parseFloat(req.body.subcategory)
+              try{             
+                     let subcategory = req.body.subcategory
                      let maxPrice = parseFloat(req.body.max_price);
                      let minPrice = parseFloat(req.body.min_price);
                      const productFilter = await prisma.product.findMany({
@@ -114,11 +151,8 @@ const filterPriceByAltCat = async(req,res) => {
        try{
               await prisma.$connect;
               try{ 
-                     const errors  = validationResult(req)
-                     if(!errors.isEmpty()){
-                            return res.status(400).json({errors:errors.array()})
-                     } 
-                     let altcategory = parseFloat(req.body.altcategory)
+                    
+                     let altcategory = req.body.altcategory
                      let maxPrice = parseFloat(req.body.max_price);
                      let minPrice = parseFloat(req.body.min_price);
                      const productFilter = await prisma.product.findMany({
@@ -144,11 +178,8 @@ const filterPriceByCategory = async(req,res) => {
        try{
               await prisma.$connect;
               try{ 
-                     const errors  = validationResult(req)
-                     if(!errors.isEmpty()){
-                            return res.status(400).json({errors:errors.array()})
-                     } 
-                     let category = parseFloat(req.body.category)
+                     
+                     let category = (req.body.category)
                      let maxPrice = parseFloat(req.body.max_price);
                      let minPrice = parseFloat(req.body.min_price);
                      const productFilter = await prisma.product.findMany({
@@ -228,7 +259,6 @@ const liveSearchProduct = async (req,res) => {
                             }
                      })
                     }
-                    
                      res.status(200).json({count:productSearchCount,data:productSearch})
               }catch(e) {
                      console.log(e);
@@ -247,7 +277,6 @@ const createNewProduct = async (req,res)=>{
                      images__tmp.push(item.path)
               })
               await prisma.$connect;
-              console.log(req.body);
               let uniq_id__tmp =crypto.randomBytes(8).toString("hex");
               const newProduct = await prisma.product.create({
                      data :{ 
@@ -255,6 +284,7 @@ const createNewProduct = async (req,res)=>{
                             name_az : JSON.stringify(req.body.name_az),
                             name_ru : JSON.stringify(req.body.name_ru),
                             name_en : JSON.stringify(req.body.name_en),
+                            slug:JSON.stringify(req.body.slug),
                             description : JSON.stringify(req.body.description),
                             specification :JSON.stringify(req.body.specification),
                             price :parseFloat(req.body.price),

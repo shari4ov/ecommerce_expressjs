@@ -24,7 +24,7 @@ app.use(bodyParser.json())
 
 require('./routes/admin_route')(app)
 app.get('/api/stroyka/get/products/all',productAPI.getProduct)
-app.get('/api/stroyka/get/products/byId/:id',productAPI.getProductByID)
+app.get('/api/stroyka/get/products/:slug',productAPI.getProductByID)
 app.get('/api/stroyka/get/products/byCategory/:category',productAPI.getProductByCategory)
 app.get('/api/stroyka/get/products/bySubCategory/:subCategory',productAPI.getProductBySubCategory)
 app.get('/api/stroyka/get/products/byAltCategory/:altCategory',productAPI.getProductByAltCategory)
@@ -33,7 +33,7 @@ app.get('/api/stroyka/get/altcategories',altCategoryAPI.getAltCategories)
 app.get('/api/stroyka/get/altcategoriesBySubCatID/:id',altCategoryAPI.getAltCategoriesBySubCategory)
 
 app.get('/api/stroyka/get/subcategories',subCatAPI.getSubCats)
-app.get('/api/stroyka/get/subcategoriesByCatID/:id',subCatAPI.getSubCatsByCatID)
+app.get('/api/stroyka/get/subcategoriesByCatID/:slug',subCatAPI.getSubCatsByCatID)
 
 app.get('/api/stroyka/get/categories',categoryAPI.getCategories)
 app.get('/api/stroyka/get/about',aboutUsAPI.getAbout)

@@ -26,7 +26,10 @@ const createNewCategory = async(req,res) => {
               const newCategory = await prisma.category.create({
                      data:{
                             uniq_id:uniq_id__tmp,
-                            name: JSON.stringify(req.body.name)
+                            name_az: JSON.stringify(req.body.name_az),
+                            name_ru: JSON.stringify(req.body.name_ru),
+                            name_en: JSON.stringify(req.body.name_en),
+                            slug:JSON.stringify(req.body.slug)
                      }
               }) 
               res.status(201).send("Created")
