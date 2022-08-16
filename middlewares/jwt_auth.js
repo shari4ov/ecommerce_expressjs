@@ -10,7 +10,7 @@ function authenticateToken(req, res, next) {
        const token = authHeader && authHeader.split(' ')[1]
        if (token == null) return res.sendStatus(401)
        const decode = jwt.verify(token,process.env.TOKEN_SECRET)
-       if(decode && decode.id === req.body.uniq_id) {
+       if(decode && decode.id === req.body.userId) {
               next()
        } else {
               return res.sendStatus(401)

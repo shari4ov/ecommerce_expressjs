@@ -45,7 +45,7 @@ app.post('/api/stroyka/filter/product/altcategory',productAPI.filterPriceByAltCa
 app.post('/api/stroyka/contactus/',contactAPI.postContact)
 
 
-app.post('/api/stroyka/register/user',middlewares_validation.validationRuleRegister,UserAPI.UserRegister)
+app.post('/api/stroyka/register/user',UserAPI.UserRegister)
 app.post('/api/stroyka/login/user',UserAPI.UserLogin)
 app.get('/api/stroyka/product/livesearch',productAPI.liveSearchProduct);
 
