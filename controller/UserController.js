@@ -46,7 +46,7 @@ const UserLogin = async (req,res,next) => {
               try{
                      const user = await prisma.user.findUnique({
                             where:{
-                                   email: JSON.stringify(req.body.email)
+                                   email: (req.body.email)
                             }
                      })
                      if(!user) {

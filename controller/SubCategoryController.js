@@ -17,7 +17,7 @@ const getSubCats = async(req,res) => {
 }
 const getSubCatsByCatID = async(req,res) => {
        try{ 
-              let category__ = JSON.stringify(req.params.slug);
+              let category__ = (req.params.slug);
               await prisma.$connect;
               const category_id = await prisma.category.findUnique({
                      where:{

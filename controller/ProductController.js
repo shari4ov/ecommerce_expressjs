@@ -18,7 +18,7 @@ const getProduct = async (req,res) => {
 }
 const getProductByID = async (req,res) => {
        try {
-              let search__ = JSON.stringify(req.params.slug)
+              let search__ = (req.params.slug)
               await prisma.$connect;
               const product  = await prisma.product.findUnique({
                      where:{
@@ -38,7 +38,7 @@ const getProductByID = async (req,res) => {
 }
 const getProductByCategory = async (req,res) => {
        try{
-              const category_search = JSON.stringify(req.params.category);
+              const category_search = (req.params.category);
               await prisma.$connect;
               const category__ = await prisma.category.findUnique({
                      where:{
@@ -94,7 +94,7 @@ const getProductBySubCategory = async (req,res) => {
 }
 const getProductByAltCategory = async (req,res) => {
        try{
-              const altCategory = JSON.stringify(req.params.altCategory);
+              const altCategory = (req.params.altCategory);
               
               await prisma.$connect;
               const altcategory__ = await prisma.altcategory.findUnique({
