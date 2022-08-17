@@ -22,12 +22,12 @@ const UserRegister = async (req,res) => {
                      const User = await prisma.user.create({
                            data:{
                                    uniq_id:uniq_id__tmp,
-                                   name : JSON.stringify(req.body.name),
-                                   lastname:JSON.stringify(req.body.lastname),
-                                   phone: JSON.stringify(req.body.phone),
+                                   name : (req.body.name),
+                                   lastname:(req.body.lastname),
+                                   phone: (req.body.phone),
                                    password:password_hash,
-                                   email: JSON.stringify(req.body.email),
-                                   adress: JSON.stringify(req.body.adress),
+                                   email: (req.body.email),
+                                   adress: (req.body.adress),
                            }
                      })
                      res.status(201).json({msg:"Successfuly created"});

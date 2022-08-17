@@ -14,7 +14,7 @@ const checkOut = async (req,res) => {
                             data: {
                                    uniq_id:uniq_id__tmp,
                                    productCount: parseInt(req.body.count),
-                                   orderAdress: JSON.stringify(req.body.adress),
+                                   orderAdress: (req.body.adress),
                                    userId : req.body.userId,
                                    productId: req.body.productId
                             }

@@ -10,8 +10,8 @@ const createNewBanner = async(req,res) => {
                             let newBanner = await prisma.banner.create({
                                    data:{
                                           uniq_id:uniq_id__tmp,
-                                          title : JSON.stringify(req.body.title),
-                                          description: JSON.stringify(req.body.description),
+                                          title : (req.body.title),
+                                          description: (req.body.description),
                                           image:req.files.image[0].path,
                                           mobile_image: req.files.mobile_image[0].path,
                                    }

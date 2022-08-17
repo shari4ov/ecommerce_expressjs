@@ -35,10 +35,10 @@ const createNewAltCat = async (req,res) => {
               const newAltCat = await prisma.altcategory.create({
                      data:{
                             uniq_id:uniq_id__tmp,
-                            name_az: JSON.stringify(req.body.name_az),
-                            name_ru: JSON.stringify(req.body.name_ru),
-                            name_en: JSON.stringify(req.body.name_en),
-                            slug: JSON.stringify(req.body.slug),
+                            name_az: (req.body.name_az),
+                            name_ru: (req.body.name_ru),
+                            name_en: (req.body.name_en),
+                            slug: (req.body.slug),
                             cat_id: req.body.category_id,
                             subcat_id:req.body.subCategory_id
                      }
