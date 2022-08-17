@@ -14,19 +14,12 @@ const getAltCategories = async(req,res) => {
 }
 const getAltCategoriesBySubCategory = async(req,res) => {
        try{ 
-              let subCatSlug = (req.params.slug)
+              let subCat = (req.params.id)
               await prisma.$connect;
-              const subCategory__ = await prisma.subcategory.findUnique({
-                     where :{
-                            slug:subCatSlug
-                     },
-                     select:{
-                            uniq_id:true
-                     }
-              })
+             
               const altCategory = await prisma.altcategory.findMany({
                      where:{ 
-                            subcat_id: subCategory__
+                            subcat_id: subCat
                      }
               });
               res.status(200).json(altCategory)

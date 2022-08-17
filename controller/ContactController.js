@@ -22,7 +22,17 @@ const postContact = async (req,res,next) => {
        })
        res.status(201).json({msg: "Successfully submited"});
 }
-
+const getContact = async (req,res) =>{ 
+       try{ 
+              await prisma.contact;
+              const contact = await prisma.contact.findMany();
+              res.status(200).json(contact)
+       }catch(e){
+              console.log(e);
+              res.status(500)
+       }
+}
 module.exports = {
-       postContact
+       postContact,
+       getContact
 }

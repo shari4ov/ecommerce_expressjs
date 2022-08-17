@@ -132,11 +132,12 @@ const filterPriceBySubCat = async(req,res) => {
                             where:{
                                    subcat_id:subcategory,
                                    price:{
-                                          lte:minPrice,
-                                          gte:maxPrice
+                                          gte:minPrice,
+                                          lte:maxPrice
                                    }
                             }
                      })
+                     console.log(productFilter);
                      res.status(200).json({data:productFilter})
               }catch (e){
                      console.log(e);
@@ -159,8 +160,8 @@ const filterPriceByAltCat = async(req,res) => {
                             where:{
                                    altcat_id:altcategory,
                                    price:{
-                                          lte:minPrice,
-                                          gte:maxPrice
+                                          gte:minPrice,
+                                          lte:maxPrice
                                    }
                             }
                      })
@@ -186,8 +187,8 @@ const filterPriceByCategory = async(req,res) => {
                             where:{
                                    cat_id:category,
                                    price:{
-                                          lte:minPrice,
-                                          gte:maxPrice
+                                          gte:minPrice,
+                                          lte:maxPrice
                                    }
                             }
                      })

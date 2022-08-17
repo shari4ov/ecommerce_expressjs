@@ -3,14 +3,16 @@ const categoryAPI = require('../controller/CategoryController')
 const subCatAPI = require('../controller/SubCategoryController')
 const altCategoryAPI = require("../controller/AltCategoryController");
 const sliderAPI = require('../controller/SliderController');
+const aboutUs = require('../controller/AboutUsController')
 const bannerAPI = require('../controller/BannerController');
+const contactAPI = require('../controller/ContactController');
 const upload = require('../middlewares/file_upload');
 const bodyParser = require('body-parser');
 var parseForm = bodyParser.urlencoded({ extended: true });
 module.exports= (app) => {
        app.post('/api/admin/createNewCategory',categoryAPI.createNewCategory)
        app.post('/api/admin/createNewSubCat',subCatAPI.createNewSubCat)
-       app.post('/api/admin/createNewAltCat',altCategoryAPI.createNewAltCat)
+       app.post('/api/admin/createNewAltCat',altCategoryAPI.createNewAltCat)        
        app.post('/api/admin/createNewProduct',upload.uploadProduct,parseForm,async function (req,res,next)  {
               if(upload.error_response.errors.length > 0) {
                    res.status(402).json(upload.error_response)
@@ -32,6 +34,8 @@ module.exports= (app) => {
               }
               next()
        },bannerAPI.createNewBanner)
+       app.get('/api/admin/get/contacUs',contactAPI.getContact)
+       app.post('/api/admin/create/aboutUs',aboutUs.createAbout)
        app.delete('/api/admin/delete/category',categoryAPI.deleteCategory);
        app.delete('/api/admin/delete/subcategory',subCatAPI.deleteSubCategory);
        app.delete('/api/admin/delete/altcategory',altCategoryAPI.deleteAltCategory);
