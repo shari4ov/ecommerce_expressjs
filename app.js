@@ -73,6 +73,8 @@ app.get('/api/stroyka/users/list',UserAPI.UserList)
 app.get('/api/stroyka/banners/list',bannerAPI.getBanner)
 app.get('/api/stroyka/get/product/featured',productAPI.getProductIsFeatured)
 app.get('/api/stroyka/get/product/bestseller',productAPI.getProductIsBestseller)
+app.get('/api/stroyka/get/product/bestseller/category/:category',productAPI.getProductByCategoryBestseller)
+app.get('/api/stroyka/get/product/featured/category/:category',productAPI.getProductByCategoryFeatured)
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 module.exports=app.listen(port,() => {

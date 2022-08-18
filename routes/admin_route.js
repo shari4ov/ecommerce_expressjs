@@ -48,4 +48,8 @@ module.exports= (app) => {
        app.put('/api/admin/update/altcategory',altCategoryAPI.updateAltCategory)
        app.put('/api/admin/update/category',categoryAPI.updateCategory)
        app.put('/api/admin/update/subcategory',subCatAPI.updateSubCat)
+       app.put('/api/admin/update/product',productAPI.updateProduct)
+       app.put('/api/admin/update/productStatus',productAPI.updateProductStatus)
+       app.put('/api/admin/update/productIsFeatured',productAPI.updateProductIsFeatured)
+       app.put('/api/admin/update/productIsBestseller',productAPI.updateProductIsBestseller)
 }

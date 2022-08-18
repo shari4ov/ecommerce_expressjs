@@ -353,6 +353,11 @@ const getProductIsFeatured = async (req,res) => {
               const products = await prisma.product.findMany({
                      where : {
                             isFeatured:true
+                     },
+                     include:{
+                            category:true,
+                            subcategory:true,
+                            altcategory:true
                      }
               })
               res.status(200).json(products)
@@ -368,6 +373,11 @@ const getProductIsBestseller = async (req,res) => {
               const products = await prisma.product.findMany({
                      where :{
                             isBestseller:true
+                     },
+                     include:{
+                            category:true,
+                            subcategory:true,
+                            altcategory:true
                      }
               })
               res.status(200).json(products)
@@ -376,19 +386,172 @@ const getProductIsBestseller = async (req,res) => {
               res.status(500).send("Invalid")
        }
 }
+const getProductByCategoryBestseller= async (req,res) => {
+       try {
+              const category_search = (req.params.category);
+              await prisma.$connect;
+              console.log(category_search);
+              const category__ = await prisma.category.findUnique({
+                     where:{
+                            slug:category_search
+                     },
+                     select:{
+                            uniq_id:true
+                     }
+              })
+              console.log(category__);
+              const products = await prisma.product.findMany({
+                     where:{
+                            AND:[
+                                   {
+                                          cat_id:category__.uniq_id
+                                   },
+                                   {
+                                          isBestseller:true
+                                   }
+                            ]
+                            
+                     },
+                     include:{
+                            category:true,
+                            subcategory:true,
+                            altcategory:true
+                     }
+              })
+              res.status(200).json(products)
+       }catch(e){    
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
+const getProductByCategoryFeatured = async(req,res) => {
+       try {
+              const category_search = (req.params.category);
+              await prisma.$connect;
+              console.log(category_search);
+              const category__ = await prisma.category.findUnique({
+                     where:{
+                            slug:category_search
+                     },
+                     select:{
+                            uniq_id:true
+                     }
+              })
+              console.log(category__);
+              const products = await prisma.product.findMany({
+                     where:{
+                            AND:[
+                                   {
+                                          cat_id:category__.uniq_id
+                                   },
+                                   {
+                                          isFeatured:true
+                                   }
+                            ]
+                            
+                     },
+                     include:{
+                            category:true,
+                            subcategory:true,
+                            altcategory:true
+                     }
+              })
+              res.status(200).json(products)
+       }catch(e){    
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 const updateProduct = async (req,res) => {
        try {
               
               await prisma.$connect
-              const oldProductImages = await prisma.product.findUnique({
+              const updateProduct = await prisma.product.update({
                      where:{
                             uniq_id:req.body.uniq_id
                      },
-                     select:{
-                            images:true
+                     data: {
+                            name_az:req.body.name_az,
+                            name_en:req.body.name_en,
+                            name_ru:req.body.name_ru,
+                            slug:req.body.slug,
+                            description:req.body.description,
+                            specification:req.body.specification,
+                            price:req.body.price,
+                            status:req.body.status,
+                            weight:req.body.weight,
+                            model:req.body.model,
+                            manufacturer:req.body.manufacturer,
+                            type:req.body.type,
+                            code:req.body.code,
+                            isBestseller:Boolean(req.body.isBestseller),
+                            isFeatured:Boolean(req.body.isFeatured)
                      }
               })
+              res.status(200).send("Success")
        } catch(e) {
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
+const updateProductStatus = async (req,res) =>{ 
+       try{ 
+              await prisma.$connect;
+              const updateStatus = await prisma.product.update({
+                     where:{
+                            uniq_id:req.body.uniq_id
+                     },
+                     data:{
+                            status:req.body.status
+                     }
+              })
+              res.status(200).send("Success")
+       }catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
+const updateProductIsFeatured = async (req,res) => {
+       try {
+              try {
+                     await prisma.$connect;
+                     const update = await prisma.product.update({
+                            where:{
+                                   uniq_id:req.body.uniq_id
+                            },
+                            data:{
+                                   isFeatured:Boolean(req.body.isFeatured)
+                            }
+                     })
+                     res.status(200).send("Success")
+              } catch(e){
+                     console.log(e);
+                     res.status(500)
+              }
+              
+       }catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
+const updateProductIsBestseller = async (req,res) =>{ 
+       try {
+              try {
+                     await prisma.$connect
+                     const update = await prisma.product.update({
+                            where: {
+                                   uniq_id:req.body.uniq_id
+                            },
+                            data:{
+                                   isBestseller:req.body.isBestseller
+                            }
+                     })
+                     res.status(200).send("Success")
+              }catch(e){
+                     console.log(e);
+                     res.status(500)
+              }
+       }catch(e){
               console.log(e);
               res.status(500).send("Invalid")
        }
@@ -406,6 +569,12 @@ module.exports = {
        createNewProduct,
        deleteProduct,
        getProductIsFeatured,
-       getProductIsBestseller
+       getProductIsBestseller,
+       updateProduct,
+       updateProductStatus,
+       updateProductIsFeatured,
+       updateProductIsBestseller,
+       getProductByCategoryBestseller,
+       getProductByCategoryFeatured
 }
 
