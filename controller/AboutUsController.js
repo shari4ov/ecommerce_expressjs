@@ -34,7 +34,26 @@ const createAbout = async(req,res) => {
         res.status(404)
     }
 }
+const updateAbout = async(req,res) => {
+    try {   
+        await prisma.$connect
+        const updateAbout = await prisma.aboutus.update({
+            where:{
+                uniq_id:req.body.uniq_id
+            },
+            data :{
+                title:req.body.title,
+                context:req.body.context
+            }
+        })
+        res.status(200).send("Successfull")
+    }catch(e){
+        console.log(e);
+        res.status(500)
+    }
+}
 module.exports = {
     getAbout,
-    createAbout
+    createAbout,
+    updateAbout
 }

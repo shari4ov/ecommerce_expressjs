@@ -274,8 +274,12 @@ const liveSearchProduct = async (req,res) => {
 const createNewProduct = async (req,res)=>{
        try{
               let images__tmp = [];
-              req.files.forEach(item => {
-                     images__tmp.push(item.path)
+              req.files.forEach((item,index) => {
+                     let img__={};
+                     img__['id']= crypto.randomBytes(4).toString("hex"),
+                     img__['image'] = item.filename
+                     img__['path'] = item.path
+                     images__tmp.push(img__)
               })
               await prisma.$connect;
               let uniq_id__tmp =crypto.randomBytes(8).toString("hex");
@@ -303,7 +307,7 @@ const createNewProduct = async (req,res)=>{
                             cat_id:(req.body.cat_id)
                      }
               })
-              console.log(newProduct);
+              // console.log(newProduct);
               res.status(201).send("Successfully created");
        } catch(e) {
               console.log(e);
@@ -343,6 +347,52 @@ const deleteProduct = async (req,res) => {
               res.status(500).send("Invalid")
        }
 }
+const getProductIsFeatured = async (req,res) => {
+       try {
+              await prisma.$connect;
+              const products = await prisma.product.findMany({
+                     where : {
+                            isFeatured:true
+                     }
+              })
+              res.status(200).json(products)
+       }
+       catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
+const getProductIsBestseller = async (req,res) => {
+       try {
+              await prisma.$connect;
+              const products = await prisma.product.findMany({
+                     where :{
+                            isBestseller:true
+                     }
+              })
+              res.status(200).json(products)
+       }catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
+const updateProduct = async (req,res) => {
+       try {
+              
+              await prisma.$connect
+              const oldProductImages = await prisma.product.findUnique({
+                     where:{
+                            uniq_id:req.body.uniq_id
+                     },
+                     select:{
+                            images:true
+                     }
+              })
+       } catch(e) {
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 module.exports = {
        getProduct,
        getProductByID,
@@ -354,5 +404,8 @@ module.exports = {
        filterPriceByCategory,
        liveSearchProduct,
        createNewProduct,
-       deleteProduct
+       deleteProduct,
+       getProductIsFeatured,
+       getProductIsBestseller
 }
+

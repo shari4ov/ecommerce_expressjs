@@ -71,7 +71,8 @@ app.put('/api/stroyka/user/update/password',middlewares_auth.authenticateToken,(
 },UserAPI.UserChangePass);
 app.get('/api/stroyka/users/list',UserAPI.UserList)
 app.get('/api/stroyka/banners/list',bannerAPI.getBanner)
-
+app.get('/api/stroyka/get/product/featured',productAPI.getProductIsFeatured)
+app.get('/api/stroyka/get/product/bestseller',productAPI.getProductIsBestseller)
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 module.exports=app.listen(port,() => {

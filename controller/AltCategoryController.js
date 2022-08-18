@@ -64,9 +64,30 @@ const deleteAltCategory = async (req,res) =>{
               res.status(500).send("Invalid")
        }
 }
+const updateAltCategory = async (req,res) => {
+       try {
+              await prisma.$connect
+              const updateAltCat = await prisma.altcategory.update({
+                     where:{
+                            uniq_id:req.body.uniq_id
+                     },
+                     data :{ 
+                            name_az:req.body.name_az,
+                            name_en:req.body.name_en,
+                            name_ru:req.body.name_ru,
+                            slug:req.body.slug
+                     }
+              })
+              res.status(200).send("Success")
+       }catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 module.exports = {
        getAltCategories,
        getAltCategoriesBySubCategory,
        createNewAltCat,
-       deleteAltCategory
+       deleteAltCategory,
+       updateAltCategory
 }

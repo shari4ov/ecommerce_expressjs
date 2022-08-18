@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 var jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const { checkOut } = require("./CheckOutController");
 
 dotenv.config();
 process.env.TOKEN_SECRET;
@@ -47,6 +48,9 @@ const UserLogin = async (req,res,next) => {
                      const user = await prisma.user.findUnique({
                             where:{
                                    email: (req.body.email)
+                            },
+                            include:{
+                                   checkout:true
                             }
                      })
                      if(!user) {
@@ -59,7 +63,8 @@ const UserLogin = async (req,res,next) => {
                             lastname:user.lastname,
                             phone:user.phone,
                             email:user.email,
-                            adress:user.adress       
+                            adress:user.adress,
+                            checkout:user.checkout
                      },process.env.TOKEN_SECRET,{expiresIn:'24h'})
                      res.status(200).json(token)
               }catch(e) {

@@ -58,7 +58,7 @@ model product {
   status        ProductStatus
   weight        Float         @db.Float
   model         String        @db.VarChar(255)
-  images        String        @db.VarChar(255)
+  images        Json          @db.Json
   manufacturer  Json
   type          String        @db.VarChar(255)
   code          String        @db.VarChar(255)

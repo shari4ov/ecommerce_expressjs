@@ -7,7 +7,6 @@ const checkOut = async (req,res) => {
        try{ 
               
               try {
- 
                      let uniq_id__tmp = uuidv4();
                      await prisma.$connect;
                      const checkout = await prisma.checkout.create({
@@ -30,9 +29,19 @@ const checkOut = async (req,res) => {
               res.status(500).send("Server error")
        }
 }
-
+const getCheckout = async (req,res) =>{ 
+       try {
+              await prisma.$connect;
+              const checkouts = await prisma.checkout.findMany();
+              res.status(200).json(checkouts)
+       }catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 module.exports = {
-       checkOut
+       checkOut,
+       getCheckout
 }
 
 

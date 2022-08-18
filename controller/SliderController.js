@@ -44,8 +44,22 @@ const getSliders = async (req,res) => {
               res.status(501).send("Invalid")
        }
 }
-
+const deleteSlider = async (req,res) => {
+       try {
+              await prisma.$connect;
+              const deleted = await prisma.slider.delete({
+                     where:{
+                            uniq_id:req.body.uniq_id
+                     }
+              })
+              res.status(200).send("Success")
+       } catch(e) {
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 module.exports = {
        createNewSlider,
-       getSliders
+       getSliders,
+       deleteSlider
 }

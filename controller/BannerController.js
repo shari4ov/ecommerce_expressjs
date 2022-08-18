@@ -47,8 +47,23 @@ const getBanner = async (req,res) => {
               res.status(500).send("Invalid")
        }
 }
+const deleteBanner = async (req,res) => {
+       try {
+              await prisma.$connect
+              const banner = await prisma.banner.delete({
+                     where:{
+                            uniq_id:req.body.uniq_id
+                     }
+              })
+              res.status(200).send("Success")
+       }catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 
 module.exports = {
        getBanner,
-       createNewBanner
+       createNewBanner,
+       deleteBanner
 }
