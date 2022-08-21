@@ -14,7 +14,7 @@ const getAltCategories = async(req,res) => {
 }
 const getAltCategoriesBySubCategory = async(req,res) => {
        try{ 
-              let subCat = (req.params.id)
+              let subCat = (req.params.slug)
               await prisma.$connect;
              
               const altCategory = await prisma.altcategory.findMany({
