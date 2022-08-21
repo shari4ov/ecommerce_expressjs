@@ -485,6 +485,9 @@
               "properties": {
                 "userId": {
                   "example": "any"
+                },
+                "email": {
+                  "example": "any"
                 }
               }
             }

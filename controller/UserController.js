@@ -77,14 +77,17 @@ const UserLogin = async (req,res,next) => {
               res.status(500).json({msg:"Invalid"})
        }
 }
-const UserLogout =  (req,res) => {
+const UserLogout =  async (req,res) => {
        try{ 
-              const token =  jwt.sign({},process.env.TOKEN_SECRET,{expiresIn:'12'})
+              const authHeader = req.get('authorization')
+              const token = authHeader && authHeader.split(' ')[1]
+              const token__ = jwt.sign({},token,{expiresIn:'1'})
               res.status(200).json('logout')
        } catch(e) {
               console.log(e);
               res.status(404).json({msg:"Invalid"})
        }
+       
 }
 const UserChangePass = async (req,res) => {
        try{ 
