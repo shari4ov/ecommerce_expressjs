@@ -123,12 +123,12 @@
         }
       }
     },
-    "/api/stroyka/get/altcategoriesBySubCatID/{id}": {
+    "/api/stroyka/get/altcategoriesBySubCatID/{slug}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "slug",
             "in": "path",
             "required": true,
             "type": "string"
@@ -484,9 +484,6 @@
               "type": "object",
               "properties": {
                 "userId": {
-                  "example": "any"
-                },
-                "email": {
                   "example": "any"
                 }
               }
