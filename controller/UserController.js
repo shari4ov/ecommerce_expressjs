@@ -32,7 +32,7 @@ const UserRegister = async (req,res) => {
                            }
                      })
                      const token = jwt.sign({
-                            id:uniq_id__tmp,
+                            sub:uniq_id__tmp,
                             lastname:req.body.name,
                             phone:req.body.phone,
                             email:req.body.email,
@@ -66,7 +66,7 @@ const UserLogin = async (req,res,next) => {
                      const checkPassword = bcrypt.compareSync(req.body.password,user.password)
                      if(!checkPassword) return res.status(422).json({msg:"Şifrə düzgün deyil"})
                      const token = jwt.sign({
-                            id:user.uniq_id,name:user.name,
+                            sub:user.uniq_id,name:user.name,
                             lastname:user.lastname,
                             phone:user.phone,
                             email:user.email,
