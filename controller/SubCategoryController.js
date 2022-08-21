@@ -15,7 +15,7 @@ const getSubCats = async(req,res) => {
               res.status(404).send("Invalid")
        }
 }
-const getSubCatsByCatID = async(req,res) => {
+const getSubCatsByCatSlug = async(req,res) => {
        try{ 
               let category__ = (req.params.slug);
               await prisma.$connect;
@@ -93,10 +93,26 @@ const updateSubCat = async (req,res) =>{
               res.status(500).send("Invalid")
        }
 }
+
+const getSubCatByUniqID = async (req,res) =>{ 
+       try {
+              await prisma.$connect
+              const sub_category = await prisma.subcategory.findUnique({
+                     where:{
+                            uniq_id:req.params.uniq_id
+                     }
+              })
+              res.status(200).json(sub_category)
+       }catch(e){
+              console.log(e);
+              res.status(500)
+       }
+}
 module.exports = {
        getSubCats,
-       getSubCatsByCatID,
+       getSubCatsByCatSlug,
        createNewSubCat,
        deleteSubCategory,
-       updateSubCat
+       updateSubCat,
+       getSubCatByUniqID
 }

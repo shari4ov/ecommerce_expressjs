@@ -32,12 +32,15 @@ app.get('/api/stroyka/get/products/bySubCategory/:subCategory',productAPI.getPro
 app.get('/api/stroyka/get/products/byAltCategory/:altCategory',productAPI.getProductByAltCategory)
 
 app.get('/api/stroyka/get/altcategories',altCategoryAPI.getAltCategories)
+app.get('/api/stroyka/get/altcategories/:uniqId',altCategoryAPI.getAltCategoryByUniqID)
 app.get('/api/stroyka/get/altcategoriesBySubCatID/:slug',altCategoryAPI.getAltCategoriesBySubCategory)
 
 app.get('/api/stroyka/get/subcategories',subCatAPI.getSubCats)
-app.get('/api/stroyka/get/subcategoriesByCatID/:slug',subCatAPI.getSubCatsByCatID)
+app.get('/api/stroyka/get/subcategories/:slug',subCatAPI.getSubCatByUniqID)
+app.get('/api/stroyka/get/getSubCatsByCatSlug/:slug',subCatAPI.getSubCatsByCatSlug)
 
 app.get('/api/stroyka/get/categories',categoryAPI.getCategories)
+app.get('/api/stroyka/get/categoriesByUniqID/:uniqId',categoryAPI.getCategoryByUniqId)
 app.get('/api/stroyka/get/about',aboutUsAPI.getAbout)
 app.get('/api/stroyka/get/slider',sliderAPI.getSliders)
 app.post('/api/stroyka/filter/product/subcategory',productAPI.filterPriceBySubCat)

@@ -76,9 +76,25 @@ const updateCategory = async (req,res) => {
               res.status(500).send("Invalid")
        }
 }
+const getCategoryByUniqId = async(req,res) =>{ 
+       try{
+              await prisma.$connect;
+
+              const category = await prisma.category.findUnique({
+                     where:{
+                            uniq_id:req.params.uniqId
+                     }
+              })
+              res.status(200).json(category)
+       } catch(e){
+              console.log(e);
+              res.status(500)
+       }
+}
 module.exports = {
        getCategories,
        createNewCategory,
        deleteCategory,
-       updateCategory
+       updateCategory,
+       getCategoryByUniqId
 }
