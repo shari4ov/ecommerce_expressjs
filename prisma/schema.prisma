@@ -30,7 +30,7 @@ model subcategory {
   category    category?     @relation(fields: [category_id], references: [uniq_id])
   category_id String        @unique @db.VarChar(255)
   altcategory altcategory[]
-  product     product?
+  product     product[]
 }
 
 model altcategory {
@@ -70,7 +70,7 @@ model product {
   subcat_id     String        @unique @db.VarChar(255)
   cat_id        String        @unique @db.VarChar(255)
   category      category      @relation(fields: [cat_id], references: [uniq_id])
-  checkout      checkout?
+  checkout      checkout[]
 }
 
 model contact {
