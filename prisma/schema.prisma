@@ -11,25 +11,25 @@ datasource db {
 }
 
 model category {
-  uniq_id     String       @unique
-  name_az     String       @db.VarChar(255)
-  name_en     String       @db.VarChar(255)
-  name_ru     String       @db.VarChar(255)
-  slug        String       @unique @db.VarChar(255)
-  subcategory subcategory?
-  altcategory altcategory?
-  product     product?
+  uniq_id     String        @unique
+  name_az     String        @db.VarChar(255)
+  name_en     String        @db.VarChar(255)
+  name_ru     String        @db.VarChar(255)
+  slug        String        @unique @db.VarChar(255)
+  subcategory subcategory[]
+  altcategory altcategory[]
+  product     product[]
 }
 
 model subcategory {
-  uniq_id     String       @unique
-  name_az     String       @db.VarChar(255)
-  name_en     String       @db.VarChar(255)
-  name_ru     String       @db.VarChar(255)
-  slug        String       @unique @db.VarChar(255)
-  category    category?    @relation(fields: [category_id], references: [uniq_id])
-  category_id String       @unique @db.VarChar(255)
-  altcategory altcategory?
+  uniq_id     String        @unique
+  name_az     String        @db.VarChar(255)
+  name_en     String        @db.VarChar(255)
+  name_ru     String        @db.VarChar(255)
+  slug        String        @unique @db.VarChar(255)
+  category    category?     @relation(fields: [category_id], references: [uniq_id])
+  category_id String        @unique @db.VarChar(255)
+  altcategory altcategory[]
   product     product?
 }
 
@@ -43,7 +43,7 @@ model altcategory {
   category    category    @relation(fields: [cat_id], references: [uniq_id])
   cat_id      String      @unique
   subcat_id   String      @unique
-  product     product?
+  product     product[]
 }
 
 model product {
