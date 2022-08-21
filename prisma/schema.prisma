@@ -129,6 +129,16 @@ model banner {
   description  Json   @db.Json
 }
 
+model adress {
+  uniq_id     String @unique @db.VarChar(255)
+  adress      String
+  email       String
+  number1     String
+  number2     String
+  openTimes   String
+  coordinates String
+}
+
 enum ProductStatus {
   active
   deactive

@@ -6,6 +6,7 @@ const sliderAPI = require('../controller/SliderController');
 const aboutUs = require('../controller/AboutUsController')
 const bannerAPI = require('../controller/BannerController');
 const contactAPI = require('../controller/ContactController');
+const adressAPI = require('../controller/AdressController')
 const upload = require('../middlewares/file_upload');
 const bodyParser = require('body-parser');
 const checkOutAPI  = require('../controller/CheckOutController');
@@ -35,6 +36,8 @@ module.exports= (app) => {
               }
               next()
        },bannerAPI.createNewBanner)
+
+       app.post('/api/admin/create/adress',adressAPI.createAdress)
        app.get('/api/admin/get/contacUs',contactAPI.getContact)
        app.get('/api/admin/get/checkout',checkOutAPI.getCheckout)
        app.post('/api/admin/create/aboutUs',aboutUs.createAbout)
@@ -44,11 +47,13 @@ module.exports= (app) => {
        app.delete('/api/admin/delete/products',productAPI.deleteProduct);
        app.delete('/api/admin/delete/banner',bannerAPI.deleteBanner)
        app.delete('/api/admin/delete/slider',sliderAPI.deleteSlider)
+       app.delete('/api/admin/delete/adress',adressAPI.deleteAdress)
        app.put('/api/admin/update/aboutus',aboutUs.updateAbout)
        app.put('/api/admin/update/altcategory',altCategoryAPI.updateAltCategory)
        app.put('/api/admin/update/category',categoryAPI.updateCategory)
        app.put('/api/admin/update/subcategory',subCatAPI.updateSubCat)
        app.put('/api/admin/update/product',productAPI.updateProduct)
+       app.put('/api/admin/update/adress',adressAPI.updateAdress)
        app.put('/api/admin/update/productStatus',productAPI.updateProductStatus)
        app.put('/api/admin/update/productIsFeatured',productAPI.updateProductIsFeatured)
        app.put('/api/admin/update/productIsBestseller',productAPI.updateProductIsBestseller)

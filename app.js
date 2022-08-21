@@ -13,6 +13,8 @@ const contactAPI = require('./controller/ContactController')
 const aboutUsAPI  = require('./controller/AboutUsController');
 const UserAPI = require('./controller/UserController');
 const checkOutAPI = require('./controller/CheckOutController')
+const adressAPI = require('./controller/AdressController')
+
 const sliderAPI = require('./controller/SliderController')
 const bannerAPI = require('./controller/BannerController')
 var {body} = require('express-validator');
@@ -75,6 +77,9 @@ app.get('/api/stroyka/get/product/featured',productAPI.getProductIsFeatured)
 app.get('/api/stroyka/get/product/bestseller',productAPI.getProductIsBestseller)
 app.get('/api/stroyka/get/product/bestseller/category/:category',productAPI.getProductByCategoryBestseller)
 app.get('/api/stroyka/get/product/featured/category/:category',productAPI.getProductByCategoryFeatured)
+
+app.get('/api/admin/get/adress',adressAPI.getAdress)
+
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 module.exports=app.listen(port,() => {
