@@ -31,7 +31,14 @@ const UserRegister = async (req,res) => {
                                    adress: (req.body.adress),
                            }
                      })
-                     res.status(201).json({msg:"Successfuly created"});
+                     const token = jwt.sign({
+                            id:uniq_id__tmp,
+                            lastname:req.body.name,
+                            phone:req.body.phone,
+                            email:req.body.email,
+                            adress:req.body.adress,
+                     },process.env.TOKEN_SECRET,{expiresIn:'24h'})
+                     res.status(201).json({msg:"Successfuly created",token:token});
               }catch(e) {
                      console.log(e);
                      res.status(501).json({msg:"Server Error"})
