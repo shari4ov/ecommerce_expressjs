@@ -12,6 +12,7 @@ datasource db {
 
 model category {
   uniq_id     String        @unique
+  createdAt   DateTime      @default(dbgenerated("NOW"))
   name_az     String        @db.VarChar(255)
   name_en     String        @db.VarChar(255)
   name_ru     String        @db.VarChar(255)
@@ -23,6 +24,7 @@ model category {
 
 model subcategory {
   uniq_id     String        @unique
+  createdAt   DateTime      @default(dbgenerated("NOW"))
   name_az     String        @db.VarChar(255)
   name_en     String        @db.VarChar(255)
   name_ru     String        @db.VarChar(255)
@@ -35,6 +37,7 @@ model subcategory {
 
 model altcategory {
   uniq_id     String      @unique
+  createdAt   DateTime    @default(dbgenerated("NOW"))
   name_az     String      @db.VarChar(255)
   name_en     String      @db.VarChar(255)
   name_ru     String      @db.VarChar(255)
@@ -48,6 +51,7 @@ model altcategory {
 
 model product {
   uniq_id       String        @unique
+  createdAt     DateTime      @default(dbgenerated("NOW"))
   name_az       String        @db.VarChar(255)
   name_en       String        @db.VarChar(255)
   name_ru       String        @db.VarChar(255)
@@ -74,35 +78,39 @@ model product {
 }
 
 model contact {
-  id      Int           @id @default(autoincrement())
-  uniq_id String        @unique
-  name    String        @db.VarChar(255)
-  email   String        @db.VarChar(255)
-  phone   String        @db.VarChar(100)
-  message String        @db.Text
-  source  ContactSource
+  id        Int           @id @default(autoincrement())
+  uniq_id   String        @unique
+  createdAt DateTime      @default(dbgenerated("NOW"))
+  name      String        @db.VarChar(255)
+  email     String        @db.VarChar(255)
+  phone     String        @db.VarChar(100)
+  message   String        @db.Text
+  source    ContactSource
 }
 
 model aboutus {
-  id      Int    @id @default(autoincrement())
-  uniq_id String @unique
-  title   Json   @db.Json
-  context Json   @db.Json
+  id        Int      @id @default(autoincrement())
+  uniq_id   String   @unique
+  createdAt DateTime @default(dbgenerated("NOW"))
+  title     Json     @db.Json
+  context   Json     @db.Json
 }
 
 model user {
-  uniq_id  String     @unique @db.VarChar(255)
-  name     String     @db.VarChar(100)
-  lastname String     @db.VarChar(100)
-  phone    String     @db.VarChar(100)
-  password String     @db.VarChar(255)
-  email    String     @unique @db.VarChar(150)
-  adress   String     @db.Text
-  checkout checkout[]
+  uniq_id   String     @unique @db.VarChar(255)
+  createdAt DateTime   @default(dbgenerated("NOW"))
+  name      String     @db.VarChar(100)
+  lastname  String     @db.VarChar(100)
+  phone     String     @db.VarChar(100)
+  password  String     @db.VarChar(255)
+  email     String     @unique @db.VarChar(150)
+  adress    String     @db.Text
+  checkout  checkout[]
 }
 
 model checkout {
   uniq_id      String   @unique @db.VarChar(255)
+  createdAt    DateTime @default(dbgenerated("NOW"))
   productCount Int      @db.Int
   orderAdress  String   @db.Text
   user         user     @relation(fields: [userId], references: [uniq_id])
@@ -112,25 +120,28 @@ model checkout {
 }
 
 model slider {
-  uniq_id            String @unique @db.VarChar(255)
-  title              Json   @db.Json
-  description        Json   @db.Json
-  image              String @db.VarChar(255)
-  mobile_image       String @db.VarChar(255)
-  mobile_description Json   @db.Json
-  path               String @db.VarChar(255)
+  uniq_id            String   @unique @db.VarChar(255)
+  createdAt          DateTime @default(dbgenerated("NOW"))
+  title              Json     @db.Json
+  description        Json     @db.Json
+  image              String   @db.VarChar(255)
+  mobile_image       String   @db.VarChar(255)
+  mobile_description Json     @db.Json
+  path               String   @db.VarChar(255)
 }
 
 model banner {
-  uniq_id      String @unique @db.VarChar(255)
-  image        String @db.VarChar(255)
-  mobile_image String @db.VarChar(255)
-  title        Json   @db.Json
-  description  Json   @db.Json
+  uniq_id      String   @unique @db.VarChar(255)
+  createdAt    DateTime @default(dbgenerated("NOW"))
+  image        String   @db.VarChar(255)
+  mobile_image String   @db.VarChar(255)
+  title        Json     @db.Json
+  description  Json     @db.Json
 }
 
 model adress {
-  uniq_id     String @unique @db.VarChar(255)
+  uniq_id     String   @unique @db.VarChar(255)
+  createdAt   DateTime @default(dbgenerated("NOW"))
   adress      String
   email       String
   number1     String
