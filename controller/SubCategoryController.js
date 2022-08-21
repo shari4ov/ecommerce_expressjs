@@ -97,9 +97,10 @@ const updateSubCat = async (req,res) =>{
 const getSubCatByUniqID = async (req,res) =>{ 
        try {
               await prisma.$connect
+              console.log(req.params);
               const sub_category = await prisma.subcategory.findUnique({
                      where:{
-                            uniq_id:req.params.uniq_id
+                            uniq_id:req.params.uniqId
                      }
               })
               res.status(200).json(sub_category)

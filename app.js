@@ -4,7 +4,7 @@ var cors = require('cors')
 var bodyParser = require('body-parser')
 const middlewares_validation = require('./middlewares/validation')
 const middlewares_auth = require('./middlewares/jwt_auth');
-const port = 3000;
+const port = 3030;
 const productAPI = require('./controller/ProductController')
 const altCategoryAPI = require("./controller/AltCategoryController");
 const subCatAPI = require('./controller/SubCategoryController')
@@ -18,9 +18,14 @@ const adressAPI = require('./controller/AdressController')
 const sliderAPI = require('./controller/SliderController')
 const bannerAPI = require('./controller/BannerController')
 var {body} = require('express-validator');
+var cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger_output.json')
-
+var corsOptions = {
+       origin: ['https://www.stroyka.az','http://142.93.240.128:3001'],
+       optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+     }
+app.use(cors(corsOptions))
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 
@@ -36,7 +41,7 @@ app.get('/api/stroyka/get/altcategories/:uniqId',altCategoryAPI.getAltCategoryBy
 app.get('/api/stroyka/get/altcategoriesBySubCatID/:slug',altCategoryAPI.getAltCategoriesBySubCategory)
 
 app.get('/api/stroyka/get/subcategories',subCatAPI.getSubCats)
-app.get('/api/stroyka/get/subcategories/:slug',subCatAPI.getSubCatByUniqID)
+app.get('/api/stroyka/get/subcategories/:uniqId',subCatAPI.getSubCatByUniqID)
 app.get('/api/stroyka/get/getSubCatsByCatSlug/:slug',subCatAPI.getSubCatsByCatSlug)
 
 app.get('/api/stroyka/get/categories',categoryAPI.getCategories)

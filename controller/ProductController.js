@@ -327,9 +327,10 @@ const deleteProduct = async (req,res) => {
                             images:true
                      }
               })
-              if(deletedUser__Image) {
-                     JSON.parse(deletedUser__Image.images).forEach(item =>{ 
-                            fs.unlink(`${item}`,function(err){
+              console.log(deletedUser__Image);
+              if(deletedUser__Image.images) {
+                     (deletedUser__Image.images).forEach(item =>{ 
+                            fs.unlink(`${item.path}`,function(err){
                                    if(err) throw err;
                                    console.log('File deleted');
                             })
