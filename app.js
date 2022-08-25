@@ -60,7 +60,7 @@ app.post('/api/stroyka/register/user',UserAPI.UserRegister)
 app.post('/api/stroyka/login/user',UserAPI.UserLogin)
 app.get('/api/stroyka/user/me',UserAPI.userData)
 app.get('/api/stroyka/product/livesearch',productAPI.liveSearchProduct);
-app.post('/api/getImage',imageAPI.getImage)
+app.get('/api/getImage/:public/:uploads/:folder/:image',imageAPI.getImage)
 app.post('/api/stroyka/logout/user',middlewares_auth.authenticateToken,(err, req, res, next)=>{
        if (err.name === "TokenExpiredError") {
              return res.status(401).send("invalid token...");

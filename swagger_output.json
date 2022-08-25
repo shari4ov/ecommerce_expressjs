@@ -556,21 +556,33 @@
         }
       }
     },
-    "/api/getImage": {
-      "post": {
+    "/api/getImage/{public}/{uploads}/{folder}/{image}": {
+      "get": {
         "description": "",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "file": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "public",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "uploads",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "folder",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
