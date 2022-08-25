@@ -14,6 +14,7 @@ const aboutUsAPI  = require('./controller/AboutUsController');
 const UserAPI = require('./controller/UserController');
 const checkOutAPI = require('./controller/CheckOutController')
 const adressAPI = require('./controller/AdressController')
+const imageAPI = require('./controller/ImageController')
 
 const sliderAPI = require('./controller/SliderController')
 const bannerAPI = require('./controller/BannerController')
@@ -57,8 +58,9 @@ app.post('/api/stroyka/contactus/',contactAPI.postContact)
 
 app.post('/api/stroyka/register/user',UserAPI.UserRegister)
 app.post('/api/stroyka/login/user',UserAPI.UserLogin)
+app.get('/api/stroyka/user/me',UserAPI.userData)
 app.get('/api/stroyka/product/livesearch',productAPI.liveSearchProduct);
-
+app.get('/api/getImage/:folder/:img',imageAPI.getImage)
 app.post('/api/stroyka/logout/user',middlewares_auth.authenticateToken,(err, req, res, next)=>{
        if (err.name === "TokenExpiredError") {
              return res.status(401).send("invalid token...");

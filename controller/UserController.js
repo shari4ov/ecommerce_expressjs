@@ -70,8 +70,6 @@ const UserLogin = async (req,res,next) => {
                             lastname:user.lastname,
                             phone:user.phone,
                             email:user.email,
-                            adress:user.adress,
-                            checkout:user.checkout
                      },process.env.TOKEN_SECRET,{expiresIn:'24h'})
                      res.status(200).json(token)
               }catch(e) {
@@ -146,10 +144,32 @@ const UserList = async (req,res) =>{
               res.status(500).send("Invalid")
        }
 }
+const userData = async (req,res )=>{ 
+       try {
+              const authHeader = req.get('authorization')
+              const token = authHeader && authHeader.split(' ')[1]
+              if (token == null) return res.sendStatus(401)
+              const decode = jwt.verify(token,process.env.TOKEN_SECRET)
+              const user = await prisma.user.findUnique({
+                     where:{
+                            email: (req.body.email)
+                     },
+                     include:{
+                            checkout:true
+                     }
+              })
+              if(!user) return res.status(400).send("Invalid credentials");
+              else res.status(200).json(user);
+       }catch(e){
+              console.log(e);
+              res.status(500).send("Invalid")
+       }
+}
 module.exports= { 
        UserRegister,
        UserLogin,
        UserLogout,
        UserList,
-       UserChangePass 
+       UserChangePass ,
+       userData
 }

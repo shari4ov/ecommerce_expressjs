@@ -179,12 +179,12 @@
         }
       }
     },
-    "/api/stroyka/get/subcategories/{slug}": {
+    "/api/stroyka/get/subcategories/{uniqId}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "slug",
+            "name": "uniqId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -508,6 +508,26 @@
         }
       }
     },
+    "/api/stroyka/user/me": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/stroyka/product/livesearch": {
       "get": {
         "description": "",
@@ -529,6 +549,33 @@
           },
           "404": {
             "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/getImage/{folder}/{img}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "folder",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "img",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
