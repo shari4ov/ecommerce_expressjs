@@ -556,21 +556,21 @@
         }
       }
     },
-    "/api/getImage/{folder}/{img}": {
-      "get": {
+    "/api/getImage": {
+      "post": {
         "description": "",
         "parameters": [
           {
-            "name": "folder",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "img",
-            "in": "path",
-            "required": true,
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "file": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
