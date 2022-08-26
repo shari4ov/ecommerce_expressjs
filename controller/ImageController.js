@@ -4,7 +4,7 @@ const getImage = async (req,res) =>{
        try {
               const folder = req.params.folder;
               const image = req.params.image;
-              const r = fs.createReadStream(`./publoc/uploads/${folder}/${image}`) // or any other way to get a readable stream
+              const r = fs.createReadStream(`./public/uploads/${folder}/${image}`) // or any other way to get a readable stream
               const ps = new stream.PassThrough() 
               stream.pipeline(
                      r,
